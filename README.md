@@ -138,3 +138,15 @@ python manage.py test --verbosity=2
 | **TEST-02**| Integration testing | All | Issue #36 | [`tests/`](file:///d:/SE%20MINI%20PROJ/tests/) |
 | **TEST-03**| Acceptance testing (TC-01–18)| All | Issue #37 | [`tests/`](file:///d:/SE%20MINI%20PROJ/tests/) |
 | **TEST-04**| Regression testing | CI | Issue #38 | Automated regression pipeline |
+| **DOC-01** | Architecture documentation | DOC | Issue #39 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) |
+| **DOC-02** | Traceability & test report | DOC | Issue #40 | [`docs/TEST_RESULTS_AND_TRACEABILITY_REPORT.md`](docs/TEST_RESULTS_AND_TRACEABILITY_REPORT.md) |
+| **DOC-03** | Final project report & demo | DOC | Issue #41 | [`docs/FINAL_PROJECT_REPORT.md`](docs/FINAL_PROJECT_REPORT.md) |
+
+---
+
+## 8. Documentation Artifacts & Architecture Specifications
+- **[Software Architecture Document (SAD v1.1)](docs/ARCHITECTURE.md)**: Monolithic layered design, Django component boundaries, Mermaid database ER schema, and REST interface contracts.
+- **[System and Acceptance Test Report](docs/SYSTEM_AND_ACCEPTANCE_TEST_REPORT.md)**: Full verification record for acceptance cases TC-01 through TC-18 with 100% pass rate.
+- **[Test Results and Traceability Report](docs/TEST_RESULTS_AND_TRACEABILITY_REPORT.md)**: Comprehensive SRS-to-SAD-to-STP requirements traceability matrix.
+- **[Final Project Report & Sprint Guide](docs/FINAL_PROJECT_REPORT.md)**: Complete sprint demonstration guide and evaluation walkthrough.
+- **[API Reference](docs/API_REFERENCE.md)**: Complete REST endpoint catalog with payload specifications.
