@@ -28,7 +28,10 @@ def parse_optional_date(value):
         return None
     if hasattr(value, 'year') and hasattr(value, 'month') and hasattr(value, 'day'):
         return value
-    return parse_date(str(value)) or False
+    try:
+        return parse_date(str(value)) or False
+    except ValueError:
+        return False
 
 @require_project_membership()
 @require_http_methods(['GET', 'POST'])
