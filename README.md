@@ -65,27 +65,39 @@ Per SAD §3.5, the system is designed as a **Layered Monolith**:
 git clone https://github.com/SEMINIPROJECT2/Project-Management-System.git
 cd Project-Management-System
 
-# Create and activate virtual environment
-python -m venv venv
+# Create and activate a virtual environment
+python -m venv .venv
 
-# Windows:
-.\venv\Scripts\activate
+# Windows PowerShell:
+.\.venv\Scripts\Activate.ps1
 # Linux/macOS:
-source venv/bin/activate
+source .venv/bin/activate
 
-# Install required dependencies
-pip install -r requirements.txt
+# Install the supported Django 5.2 dependency range
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
+
+### Environment Configuration
+Copy the example file and replace its secret-key placeholder with a newly generated value. Do not commit `.env`.
+
+```powershell
+# Windows PowerShell
+Copy-Item .env.example .env
+python -c "import secrets; print(secrets.token_urlsafe(50))"
+```
+
+For Linux/macOS, use `cp .env.example .env` and run the same Python command. Copy the generated value into `DJANGO_SECRET_KEY` in `.env`.
+
+`DJANGO_DEBUG=True` and `ALLOWED_HOSTS=127.0.0.1,localhost` are configured in `.env.example` for local development. If `DJANGO_DEBUG` is omitted, settings default to `False`. For deployment, set `DJANGO_DEBUG=False`, provide a unique random `DJANGO_SECRET_KEY` of at least 50 characters, and explicitly set `ALLOWED_HOSTS` to the actual hostnames. The application refuses to start when production secret or host configuration is missing, rejects example/development keys and wildcard hosts in production, and enables secure session/CSRF cookies. Production must be served over HTTPS.
 
 ### Apply Migrations & Run Development Server
 ```bash
-# Apply database migrations
 python manage.py migrate
-
-# Start the development server
 python manage.py runserver
 ```
 Access the application at: `http://127.0.0.1:8000/`
+
 
 For HTTPS deployments, set `DJANGO_DEBUG=False` and
 `DJANGO_SECURE_COOKIES=True` so Django marks session and CSRF cookies as
@@ -93,6 +105,7 @@ For HTTPS deployments, set `DJANGO_DEBUG=False` and
 [`docs/API_REFERENCE.md`](docs/API_REFERENCE.md).
 
 ---
+
 
 ## 4. Automated Testing & Verification
 The test suite validates requirements against the official **Software Test Plan (TC-01 through TC-18)**:

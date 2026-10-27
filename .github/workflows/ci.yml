@@ -10,6 +10,11 @@ jobs:
   test:
     name: Run Test Suite & Linting
     runs-on: ubuntu-latest
+    # Explicit local/test configuration; do not reuse these values in production.
+    env:
+      DJANGO_DEBUG: "True"
+      DJANGO_SECRET_KEY: "ci-only-test-key-not-for-production-abcdefghijklmnopqrstuvwxyz123456"
+      ALLOWED_HOSTS: "127.0.0.1,localhost,testserver"
 
     steps:
       - name: Check out repository
