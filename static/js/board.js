@@ -178,8 +178,12 @@ class KanbanBoard {
         </div>
         <div class="task-title">${this.escapeHtml(task.title)}</div>
         <div class="task-meta">
-          <span>${task.assignee_email ? task.assignee_email.split('@')[0] : 'Unassigned'}</span>
-          <span class="${overdueClass}">${task.due_date ? task.due_date : 'No Due Date'}</span>
+          <span class="task-status">Status: ${this.escapeHtml(task.status)}</span>
+          <span class="task-estimate">Estimate: ${this.escapeHtml(String(task.estimate_hours))}h</span>
+        </div>
+        <div class="task-meta task-meta-secondary">
+          <span>${this.escapeHtml(task.assignee_email ? task.assignee_email.split('@')[0] : 'Unassigned')}</span>
+          <span class="${overdueClass}">${task.due_date ? this.escapeHtml(task.due_date) : 'No Due Date'}</span>
         </div>
       `;
 

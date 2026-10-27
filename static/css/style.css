@@ -397,6 +397,11 @@ a:hover {
   padding-top: 0.5rem;
 }
 
+.task-meta-secondary {
+  border-top: none;
+  padding-top: 0.35rem;
+}
+
 .task-overdue {
   color: var(--danger);
   font-weight: 600;
