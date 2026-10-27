@@ -573,3 +573,35 @@ a:hover {
   gap: 0.5rem;
 }
 
+
+/* Keyboard Accessibility & Focus Visibility (SRS NFR-05) */
+.skip-link {
+  position: absolute;
+  top: -45px;
+  left: 10px;
+  background: var(--primary);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  z-index: 9999;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: top 0.2s ease-in-out;
+}
+
+.skip-link:focus {
+  top: 10px;
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.task-card:focus-visible {
+  outline: 2px solid var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
