@@ -151,18 +151,63 @@ class TasksAndWorkflowTests(TestCase):
         self.assertIn('In Progress', audit_event.details)
 
     def test_tc08_combined_board_filters(self):
-        """TC-08: Set assignee and priority filters -> Intersection only."""
-        t1 = Task.objects.create(project=self.project, title='T1', assignee=self.member, priority=Task.PRIORITY_HIGH)
-        t2 = Task.objects.create(project=self.project, title='T2', assignee=self.member, priority=Task.PRIORITY_LOW)
-        t3 = Task.objects.create(project=self.project, title='T3', assignee=self.manager, priority=Task.PRIORITY_HIGH)
+        """TC-08 / FR-08: Filter tasks by assignee, priority, and due status -> Intersection only."""
+        today = timezone.now().date()
+        yesterday = today - timezone.timedelta(days=1)
+        tomorrow = today + timezone.timedelta(days=1)
 
-        url = f"{reverse('tasks:task_list_create', kwargs={'project_id': self.project.id})}?assignee={self.member.id}&priority=High"
+        # Target: Member + High + Overdue
+        t1 = Task.objects.create(project=self.project, title='T1', assignee=self.member, priority=Task.PRIORITY_HIGH, due_date=yesterday)
+        # Same assignee & priority, but Due Today (not overdue)
+        t2 = Task.objects.create(project=self.project, title='T2', assignee=self.member, priority=Task.PRIORITY_HIGH, due_date=today)
+        # Same assignee & priority, but Due Future (not overdue)
+        t3 = Task.objects.create(project=self.project, title='T3', assignee=self.member, priority=Task.PRIORITY_HIGH, due_date=tomorrow)
+        # Same assignee, but Low priority, overdue
+        t4 = Task.objects.create(project=self.project, title='T4', assignee=self.member, priority=Task.PRIORITY_LOW, due_date=yesterday)
+        # Same priority and overdue, but different assignee (Manager)
+        t5 = Task.objects.create(project=self.project, title='T5', assignee=self.manager, priority=Task.PRIORITY_HIGH, due_date=yesterday)
+        # Unassigned, High priority, overdue
+        t6 = Task.objects.create(project=self.project, title='T6', assignee=None, priority=Task.PRIORITY_HIGH, due_date=yesterday)
+        # Same assignee, High priority, overdue date but already Done -> excluded from overdue
+        t7 = Task.objects.create(project=self.project, title='T7', assignee=self.member, priority=Task.PRIORITY_HIGH, due_date=yesterday, status=Task.STATUS_DONE)
+
+        # 1. Combined filter (Assignee + Priority + Due Status): Only t1 matches
+        url = f"{reverse('tasks:task_list_create', kwargs={'project_id': self.project.id})}?assignee={self.member.id}&priority=High&due_status=overdue"
         resp = self.client_manager.get(url)
         self.assertEqual(resp.status_code, 200)
         tasks = resp.json()['tasks']
-        # Intersection only matches t1
         self.assertEqual(len(tasks), 1)
         self.assertEqual(tasks[0]['id'], t1.id)
+
+        # 2. Combined filter for Due Today: Only t2 matches
+        url_today = f"{reverse('tasks:task_list_create', kwargs={'project_id': self.project.id})}?assignee={self.member.id}&priority=High&due_status=due_today"
+        resp_today = self.client_manager.get(url_today)
+        self.assertEqual(resp_today.status_code, 200)
+        tasks_today = resp_today.json()['tasks']
+        self.assertEqual(len(tasks_today), 1)
+        self.assertEqual(tasks_today[0]['id'], t2.id)
+
+        # 3. Combined filter for Due Future / Upcoming: Only t3 matches
+        url_future = f"{reverse('tasks:task_list_create', kwargs={'project_id': self.project.id})}?assignee={self.member.id}&priority=high&due_status=upcoming"
+        resp_future = self.client_manager.get(url_future)
+        self.assertEqual(resp_future.status_code, 200)
+        tasks_future = resp_future.json()['tasks']
+        self.assertEqual(len(tasks_future), 1)
+        self.assertEqual(tasks_future[0]['id'], t3.id)
+
+        # 4. Combined filter with Unassigned: Only t6 matches
+        url_unassigned = f"{reverse('tasks:task_list_create', kwargs={'project_id': self.project.id})}?assignee=unassigned&priority=High&due_status=overdue"
+        resp_unassigned = self.client_manager.get(url_unassigned)
+        self.assertEqual(resp_unassigned.status_code, 200)
+        tasks_unassigned = resp_unassigned.json()['tasks']
+        self.assertEqual(len(tasks_unassigned), 1)
+        self.assertEqual(tasks_unassigned[0]['id'], t6.id)
+
+        # 5. Non-matching combination returns empty list
+        url_none = f"{reverse('tasks:task_list_create', kwargs={'project_id': self.project.id})}?assignee={self.manager.id}&priority=Low&due_status=due_today"
+        resp_none = self.client_manager.get(url_none)
+        self.assertEqual(resp_none.status_code, 200)
+        self.assertEqual(len(resp_none.json()['tasks']), 0)
 
     def test_tc09_estimate_bounds(self):
         """TC-09: Submit 2.5, -1, 2.3 hours -> 2.5 accepted; others denied."""

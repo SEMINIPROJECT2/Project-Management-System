@@ -183,19 +183,23 @@ def task_list_create_view(request, project_id):
             tasks_qs = tasks_qs.filter(assignee__isnull=True)
         elif assignee_filter.isdigit():
             tasks_qs = tasks_qs.filter(assignee_id=int(assignee_filter))
+        elif '@' in assignee_filter:
+            tasks_qs = tasks_qs.filter(assignee__email__iexact=assignee_filter)
 
     priority_filter = request.GET.get('priority')
     if priority_filter:
-        tasks_qs = tasks_qs.filter(priority=priority_filter)
+        tasks_qs = tasks_qs.filter(priority__iexact=priority_filter)
 
     due_filter = request.GET.get('due_status')
     today = timezone.now().date()
     if due_filter == 'overdue':
         tasks_qs = tasks_qs.filter(due_date__lt=today).exclude(status=Task.STATUS_DONE)
-    elif due_filter == 'due_today':
+    elif due_filter in ['due_today', 'today']:
         tasks_qs = tasks_qs.filter(due_date=today)
-    elif due_filter == 'due_future':
+    elif due_filter in ['due_future', 'upcoming']:
         tasks_qs = tasks_qs.filter(due_date__gt=today)
+    elif due_filter in ['none', 'no_due_date', 'undated']:
+        tasks_qs = tasks_qs.filter(due_date__isnull=True)
 
     data = [
         {

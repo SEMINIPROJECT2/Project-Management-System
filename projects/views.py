@@ -134,6 +134,13 @@ def project_archive_view(request, project_id):
     project = request.project
     is_json = request.content_type == 'application/json' or 'application/json' in request.headers.get('Accept', '')
 
+    if project.is_archived:
+        msg = "Project is already archived and read-only. Modifications are rejected."
+        if is_json:
+            return JsonResponse({'error': {'code': 'PROJECT_ALREADY_ARCHIVED', 'message': msg}}, status=409)
+        messages.warning(request, msg)
+        return redirect('projects:project_detail', project_id=project.id)
+
     with transaction.atomic():
         project.archived_at = timezone.now()
         project.save(update_fields=['archived_at'])
