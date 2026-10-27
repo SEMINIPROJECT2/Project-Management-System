@@ -7,7 +7,7 @@ from django.utils import timezone
 from accounts.models import User
 from audit.models import ActivityEvent
 from projects.models import Project, Membership
-from tasks.models import Task
+from tasks.models import Task, TimeEntry, Comment
 
 class ProjectsAndRolesTests(TestCase):
     """
@@ -152,6 +152,105 @@ class ProjectsAndRolesTests(TestCase):
             content_type='application/json'
         )
         self.assertEqual(create_resp.status_code, 409)
+
+    def test_archived_project_rejects_all_mutations(self):
+        """FR-16: Prevent all modifications to archived project across tasks, time logs, comments, and members."""
+        project = Project.objects.create(name='Archived Fortress', owner=self.owner, archived_at=timezone.now())
+        Membership.objects.create(project=project, user=self.owner, role=Membership.ROLE_OWNER)
+        Membership.objects.create(project=project, user=self.member, role=Membership.ROLE_MEMBER)
+
+        task = Task.objects.create(project=project, title='Fortress Task', assignee=self.member)
+        entry = TimeEntry.objects.create(task=task, user=self.owner, hours=Decimal('1.0'), date=timezone.now().date())
+
+        candidate_user = User.objects.create_user(email='candidate@example.com', password='Password123!')
+
+        # 1. Task Creation -> 409
+        r_create = self.client_owner.post(
+            reverse('tasks:task_list_create', kwargs={'project_id': project.id}),
+            json.dumps({'title': 'Blocked Task'}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_create.status_code, 409)
+        self.assertEqual(r_create.json()['error']['code'], 'PROJECT_ARCHIVED')
+
+        # 2. Task Edit -> 409
+        r_edit = self.client_owner.patch(
+            reverse('tasks:task_detail', kwargs={'project_id': project.id, 'task_id': task.id}),
+            json.dumps({'title': 'Attempted Update'}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_edit.status_code, 409)
+        self.assertEqual(r_edit.json()['error']['code'], 'PROJECT_ARCHIVED')
+
+        # 3. Task Status Move -> 409
+        r_move = self.client_owner.patch(
+            reverse('tasks:task_status_transition', kwargs={'project_id': project.id, 'task_id': task.id}),
+            json.dumps({'status': Task.STATUS_IN_PROGRESS, 'expected_version': 1}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_move.status_code, 409)
+        self.assertEqual(r_move.json()['error']['code'], 'PROJECT_ARCHIVED')
+
+        # 4. Log Time -> 409
+        r_time = self.client_owner.post(
+            reverse('tasks:task_time_log', kwargs={'project_id': project.id, 'task_id': task.id}),
+            json.dumps({'hours': 1.0}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_time.status_code, 409)
+        self.assertEqual(r_time.json()['error']['code'], 'PROJECT_ARCHIVED')
+
+        # 5. Edit Time Entry -> 409
+        r_time_edit = self.client_owner.put(
+            reverse('tasks:time_entry_detail', kwargs={'project_id': project.id, 'task_id': task.id, 'entry_id': entry.id}),
+            json.dumps({'hours': 2.0}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_time_edit.status_code, 409)
+        self.assertEqual(r_time_edit.json()['error']['code'], 'PROJECT_ARCHIVED')
+
+        # 6. Delete Time Entry -> 409
+        r_time_delete = self.client_owner.delete(
+            reverse('tasks:time_entry_detail', kwargs={'project_id': project.id, 'task_id': task.id, 'entry_id': entry.id}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_time_delete.status_code, 409)
+        self.assertEqual(r_time_delete.json()['error']['code'], 'PROJECT_ARCHIVED')
+
+        # 7. Post Comment -> 409
+        r_comment = self.client_owner.post(
+            reverse('tasks:task_comment_create', kwargs={'project_id': project.id, 'task_id': task.id}),
+            json.dumps({'text': 'Blocked Comment'}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_comment.status_code, 409)
+        self.assertEqual(r_comment.json()['error']['code'], 'PROJECT_ARCHIVED')
+
+        # 8. Member Invite -> 409
+        r_invite = self.client_owner.post(
+            reverse('projects:project_members', kwargs={'project_id': project.id}),
+            json.dumps({'email': candidate_user.email, 'role': Membership.ROLE_MEMBER}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_invite.status_code, 409)
+        self.assertEqual(r_invite.json()['error']['code'], 'PROJECT_ARCHIVED')
+
+        # 9. Role Update -> 409
+        r_role = self.client_owner.post(
+            reverse('projects:project_member_role_update', kwargs={'project_id': project.id, 'member_user_id': self.member.id}),
+            json.dumps({'role': Membership.ROLE_MANAGER}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_role.status_code, 409)
+        self.assertEqual(r_role.json()['error']['code'], 'PROJECT_ARCHIVED')
+
+        # 10. Re-Archival -> 409
+        r_archive = self.client_owner.post(
+            reverse('projects:project_archive', kwargs={'project_id': project.id}),
+            content_type='application/json'
+        )
+        self.assertEqual(r_archive.status_code, 409)
+        self.assertEqual(r_archive.json()['error']['code'], 'PROJECT_ALREADY_ARCHIVED')
 
     def test_tc16_capacity_limits(self):
         """TC-16: Support 500 tasks, 20 members, and 2,000 audit events."""

@@ -34,7 +34,13 @@ def require_project_membership(allowed_roles=None, allow_archived_mutation=False
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, project_id, *args, **kwargs):
-            is_json = request.content_type == 'application/json' or 'application/json' in request.headers.get('Accept', '')
+            is_json = (
+                request.content_type == 'application/json'
+                or 'application/json' in request.headers.get('Accept', '')
+                or 'application/json' in request.META.get('HTTP_ACCEPT', '')
+                or request.headers.get('x-requested-with') == 'XMLHttpRequest'
+                or (request.path.startswith('/tasks/projects/') and not request.path.endswith('.csv'))
+            )
 
             if not request.user.is_authenticated:
                 if is_json:

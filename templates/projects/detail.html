@@ -275,7 +275,7 @@
 </div>
 
 <!-- Modal: Invite Member (Owner only - FR-04, FR-17) -->
-{% if is_owner %}
+{% if is_owner and not project.is_archived %}
 <div class="modal-overlay" id="invite-member-modal">
   <div class="modal-content">
     <div class="modal-header">
