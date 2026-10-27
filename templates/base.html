@@ -12,6 +12,9 @@
   {% block extra_head %}{% endblock %}
 </head>
 <body>
+  <!-- Accessible Skip Link for Keyboard Navigation (NFR-05) -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- Header / Navigation -->
   <header class="navbar" role="banner">
     <div class="nav-brand">
@@ -51,7 +54,7 @@
   </header>
 
   <!-- Main Content Container -->
-  <main class="container" role="main">
+  <main class="container" id="main-content" role="main" tabindex="-1">
     {% if messages %}
       <div class="alert-container">
         {% for message in messages %}

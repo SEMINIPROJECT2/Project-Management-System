@@ -78,12 +78,19 @@ class KanbanBoard {
       });
     });
 
-    // Modal Close
+    // Modal Close buttons
     const closeBtns = document.querySelectorAll('.modal-close, .btn-modal-close');
     closeBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
       });
+    });
+
+    // Global Escape key closes any active modal (NFR-05)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+      }
     });
   }
 
@@ -152,6 +159,14 @@ class KanbanBoard {
       }
 
       card.addEventListener('click', () => this.openTaskDetailModal(task.id));
+
+      // Keyboard support for activating task card (NFR-05)
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.openTaskDetailModal(task.id);
+        }
+      });
 
       const priorityClass = `badge-${task.priority.toLowerCase()}`;
       const overdueClass = task.is_overdue ? 'task-overdue' : '';
@@ -270,7 +285,14 @@ class KanbanBoard {
         `).join('') || '<p style="font-size: 0.8rem; color: #94a3b8;">No logged time yet.</p>';
       }
 
-      document.getElementById('task-detail-modal').classList.add('active');
+      const modalEl = document.getElementById('task-detail-modal');
+      modalEl.classList.add('active');
+
+      // Focus status selector or close button for accessible keyboard navigation
+      const firstFocusable = modalEl.querySelector('select, button, input');
+      if (firstFocusable) {
+        firstFocusable.focus();
+      }
     } catch (err) {
       console.error(err);
     }
