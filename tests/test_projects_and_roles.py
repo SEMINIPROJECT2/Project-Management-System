@@ -77,22 +77,73 @@ class ProjectsAndRolesTests(TestCase):
         self.assertEqual(resp_owner_demote.json()['error']['code'], 'OWNER_ROLE_REQUIRED')
 
     def test_tc13_csv_export_and_archive(self):
-        """TC-13: Export CSV; archive; try editing -> archived edit denied (409)."""
+        """TC-13 / FR-16: Owner archives project; non-owners denied; read access retained; edits denied."""
         project = Project.objects.create(name='Gamma Project', owner=self.owner)
         Membership.objects.create(project=project, user=self.owner, role=Membership.ROLE_OWNER)
+        Membership.objects.create(project=project, user=self.member, role=Membership.ROLE_MEMBER)
         task = Task.objects.create(project=project, title='Exportable Task', estimate_hours=Decimal('4.0'))
 
-        # CSV Export
+        # CSV Export before archival
         csv_resp = self.client_owner.get(reverse('tasks:project_tasks_csv', kwargs={'project_id': project.id}))
         self.assertEqual(csv_resp.status_code, 200)
         self.assertEqual(csv_resp['Content-Type'], 'text/csv')
         self.assertIn('Exportable Task', csv_resp.content.decode('utf-8'))
 
-        # Archive project (FR-16)
+        # Non-owner (Member) attempts to archive -> 403 Forbidden
+        member_archive_resp = self.client_member.post(
+            reverse('projects:project_archive', kwargs={'project_id': project.id}),
+            content_type='application/json'
+        )
+        self.assertEqual(member_archive_resp.status_code, 403)
+        project.refresh_from_db()
+        self.assertFalse(project.is_archived)
+
+        # Outsider attempts to archive -> 404 Not Found
+        outsider_archive_resp = self.client_outsider.post(
+            reverse('projects:project_archive', kwargs={'project_id': project.id}),
+            content_type='application/json'
+        )
+        self.assertEqual(outsider_archive_resp.status_code, 404)
+
+        # Owner archives project (FR-16)
         archive_resp = self.client_owner.post(reverse('projects:project_archive', kwargs={'project_id': project.id}))
         self.assertEqual(archive_resp.status_code, 302)
         project.refresh_from_db()
         self.assertTrue(project.is_archived)
+        self.assertIsNotNone(project.archived_at)
+
+        # Attempt to archive an already archived project -> 409 Conflict
+        rearchive_resp = self.client_owner.post(
+            reverse('projects:project_archive', kwargs={'project_id': project.id}),
+            content_type='application/json'
+        )
+        self.assertEqual(rearchive_resp.status_code, 409)
+        self.assertEqual(rearchive_resp.json()['error']['code'], 'PROJECT_ALREADY_ARCHIVED')
+
+        # Retain read access for Owner and Member
+        detail_resp = self.client_member.get(reverse('projects:project_detail', kwargs={'project_id': project.id}))
+        self.assertEqual(detail_resp.status_code, 200)
+        self.assertContains(detail_resp, 'Archived')
+
+        tasks_resp = self.client_member.get(reverse('tasks:task_list_create', kwargs={'project_id': project.id}))
+        self.assertEqual(tasks_resp.status_code, 200)
+        self.assertEqual(len(tasks_resp.json()['tasks']), 1)
+
+        task_detail_resp = self.client_member.get(
+            reverse('tasks:task_detail', kwargs={'project_id': project.id, 'task_id': task.id})
+        )
+        self.assertEqual(task_detail_resp.status_code, 200)
+
+        dashboard_resp = self.client_member.get(reverse('tasks:project_dashboard', kwargs={'project_id': project.id}))
+        self.assertEqual(dashboard_resp.status_code, 200)
+
+        # Owner retains CSV export read access; Member is forbidden per FR-15
+        csv_read_resp = self.client_owner.get(reverse('tasks:project_tasks_csv', kwargs={'project_id': project.id}))
+        self.assertEqual(csv_read_resp.status_code, 200)
+        self.assertEqual(self.client_member.get(reverse('tasks:project_tasks_csv', kwargs={'project_id': project.id})).status_code, 403)
+
+        members_resp = self.client_member.get(reverse('projects:project_members', kwargs={'project_id': project.id}))
+        self.assertEqual(members_resp.status_code, 200)
 
         # Attempt to create new task in archived project (Must return 409 Conflict)
         create_resp = self.client_owner.post(
