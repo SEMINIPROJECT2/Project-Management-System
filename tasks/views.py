@@ -70,13 +70,24 @@ def task_list_create_view(request, project_id):
             estimate_raw = request.POST.get('estimate_hours', 0)
             due_date_raw = request.POST.get('due_date')
 
-        # Validate required title (FR-05 / TC-05)
+        # Validate required title (FR-05 / TC-05, SR-04)
         if not title:
             msg = "Task title is required."
             if is_json:
                 return JsonResponse({'error': {'code': 'BAD_REQUEST', 'message': msg}}, status=400)
             messages.error(request, msg)
             return redirect('projects:project_detail', project_id=project.id)
+
+        if len(title) > 255:
+            msg = "Task title cannot exceed 255 characters."
+            if is_json:
+                return JsonResponse({'error': {'code': 'BAD_REQUEST', 'message': msg}}, status=400)
+            messages.error(request, msg)
+            return redirect('projects:project_detail', project_id=project.id)
+
+        valid_priorities = [p[0] for p in Task.PRIORITY_CHOICES]
+        if priority not in valid_priorities:
+            priority = Task.PRIORITY_MEDIUM
 
         # Validate estimate hours: nonnegative, 0.5-hr increments (FR-09 / TC-09)
         estimate_val = parse_decimal(estimate_raw)
