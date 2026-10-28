@@ -17,9 +17,22 @@ from .models import Task, TimeEntry, Comment
 
 def parse_decimal(value):
     try:
-        return Decimal(str(value))
+        result = Decimal(str(value))
+        return result if result.is_finite() else None
     except (InvalidOperation, TypeError, ValueError):
         return None
+
+
+def valid_hours(value, *, maximum, step, allow_zero=False):
+    """Check storage bounds before arithmetic, including extreme exponents."""
+    if value is None or value < 0 or value > maximum:
+        return False
+    if not allow_zero and value == 0:
+        return False
+    try:
+        return value % step == 0
+    except InvalidOperation:
+        return False
 
 
 def parse_optional_date(value):
@@ -94,8 +107,8 @@ def task_list_create_view(request, project_id):
 
         # Validate estimate hours: nonnegative, 0.5-hr increments (FR-09 / TC-09)
         estimate_val = parse_decimal(estimate_raw)
-        if estimate_val is None or estimate_val < 0 or (estimate_val * 2) % 1 != 0:
-            msg = "Estimate must be a non-negative number in 0.5-hour increments."
+        if not valid_hours(estimate_val, maximum=Decimal('9999.99'), step=Decimal('0.5'), allow_zero=True):
+            msg = "Estimate must be finite, between 0 and 9999.5 hours, in 0.5-hour increments."
             if is_json:
                 return JsonResponse({'error': {'code': 'INVALID_ESTIMATE', 'message': msg}}, status=400)
             messages.error(request, msg)
@@ -324,8 +337,8 @@ def task_detail_view(request, project_id, task_id):
 
         if is_owner_or_manager and 'estimate_hours' in data:
             est_val = parse_decimal(data['estimate_hours'])
-            if est_val is None or est_val < 0 or (est_val * 2) % 1 != 0:
-                return JsonResponse({'error': {'code': 'INVALID_ESTIMATE', 'message': 'Estimate must be non-negative 0.5 increment'}}, status=400)
+            if not valid_hours(est_val, maximum=Decimal('9999.99'), step=Decimal('0.5'), allow_zero=True):
+                return JsonResponse({'error': {'code': 'INVALID_ESTIMATE', 'message': 'Estimate must be finite, between 0 and 9999.5 hours, in 0.5-hour increments'}}, status=400)
             task.estimate_hours = est_val
 
         if is_owner_or_manager and 'assignee_id' in data:
@@ -444,28 +457,35 @@ def task_time_log_view(request, project_id, task_id):
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
+        if request.content_type == 'application/json':
+            return JsonResponse({'error': {'code': 'INVALID_JSON', 'message': 'Invalid JSON body'}}, status=400)
         data = request.POST
+    if not hasattr(data, 'get'):
+        return JsonResponse({'error': {'code': 'BAD_REQUEST', 'message': 'Expected an object'}}, status=400)
 
     hours_val = parse_decimal(data.get('hours'))
     # Must be positive and in 0.25-hr increments (FR-10 / TC-10)
-    if hours_val is None or hours_val <= 0 or (hours_val * 4) % 1 != 0:
+    if not valid_hours(hours_val, maximum=Decimal('999.99'), step=Decimal('0.25')):
         return JsonResponse({
             'error': {
                 'code': 'INVALID_HOURS',
-                'message': 'Hours must be a positive number in 0.25-hour increments (e.g. 0.25, 0.5, 0.75, 1.25)'
+                'message': 'Hours must be finite, between 0.25 and 999.75, in 0.25-hour increments'
             }
         }, status=400)
 
     date_raw = data.get('date')
-    date_val = parse_optional_date(date_raw) if date_raw else timezone.now().date()
-    if date_val is False:
+    date_val = timezone.localdate() if 'date' not in data else parse_optional_date(date_raw)
+    if date_val is False or date_val is None:
         return JsonResponse({
             'error': {
                 'code': 'INVALID_DATE',
                 'message': 'Date must use YYYY-MM-DD format'
             }
         }, status=400)
-    note = data.get('note', '').strip()
+    note = data.get('note', '')
+    if not isinstance(note, str):
+        return JsonResponse({'error': {'code': 'INVALID_NOTE', 'message': 'Note must be text'}}, status=400)
+    note = note.strip()
 
     with transaction.atomic():
         entry = TimeEntry.objects.create(
@@ -488,6 +508,8 @@ def task_time_log_view(request, project_id, task_id):
         'entry_id': entry.id,
         'task_id': task.id,
         'hours': str(entry.hours),
+        'date': entry.date.isoformat(),
+        'note': entry.note,
         'actual_hours': str(task.actual_hours),
         'message': 'Time logged successfully'
     }, status=201)
@@ -522,16 +544,27 @@ def time_entry_detail_view(request, project_id, task_id, entry_id):
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
+        if request.content_type == 'application/json':
+            return JsonResponse({'error': {'code': 'INVALID_JSON', 'message': 'Invalid JSON body'}}, status=400)
         data = request.POST
+    if not hasattr(data, 'get'):
+        return JsonResponse({'error': {'code': 'BAD_REQUEST', 'message': 'Expected an object'}}, status=400)
 
     hours_val = parse_decimal(data.get('hours'))
-    if hours_val is None or hours_val <= 0 or (hours_val * 4) % 1 != 0:
-        return JsonResponse({'error': {'code': 'INVALID_HOURS', 'message': 'Hours must be positive in 0.25 increments'}}, status=400)
+    if not valid_hours(hours_val, maximum=Decimal('999.99'), step=Decimal('0.25')):
+        return JsonResponse({'error': {'code': 'INVALID_HOURS', 'message': 'Hours must be finite, between 0.25 and 999.75, in 0.25-hour increments'}}, status=400)
+
+    date_val = parse_optional_date(data['date']) if 'date' in data else entry.date
+    if date_val is False or date_val is None:
+        return JsonResponse({'error': {'code': 'INVALID_DATE', 'message': 'Date must use YYYY-MM-DD format'}}, status=400)
+    note = data.get('note', entry.note)
+    if not isinstance(note, str):
+        return JsonResponse({'error': {'code': 'INVALID_NOTE', 'message': 'Note must be text'}}, status=400)
 
     with transaction.atomic():
         entry.hours = hours_val
-        if 'note' in data:
-            entry.note = data['note']
+        entry.date = date_val
+        entry.note = note.strip()
         entry.save()
         log_audit_event(
             project=project,
@@ -546,6 +579,8 @@ def time_entry_detail_view(request, project_id, task_id, entry_id):
         'entry_id': entry.id,
         'hours': str(entry.hours),
         'actual_hours': str(task.actual_hours),
+        'date': entry.date.isoformat(),
+        'note': entry.note,
         'message': 'Time entry updated'
     })
 

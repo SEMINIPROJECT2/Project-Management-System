@@ -9,7 +9,7 @@ def project_activity_api(request, project_id):
     SRS FR-13: Retrieve activity history for a project in time order.
     Scoped strictly to authorized project members.
     """
-    events = ActivityEvent.objects.filter(project_id=project_id).select_related('actor')[:100]
+    events = ActivityEvent.objects.filter(project_id=project_id).select_related('actor').order_by('-created_at', '-id')
     data = [
         {
             'id': event.id,
