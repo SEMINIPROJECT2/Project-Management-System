@@ -7,6 +7,17 @@ Environment: Windows, Python 3.13.14, Django 5.2.18, SQLite; isolated virtual en
 
 ## Executed commands and observed results
 
+### Demo-delivery re-verification — 29 October 2026
+
+Merged build `4c853b9` was re-tested on Linux, Python 3.12, Django 5.2.18,
+SQLite: **133 discovered, 130 passed, 3 skipped, 0 failures/errors in 81.196 s**.
+The three skips are the optional performance test and Chrome/Firefox workflows.
+[Fresh full output](test-evidence/demo-delivery-tests.txt).
+The previous Windows execution and separate performance measurement below are
+retained as historical evidence; their environment/timings do not describe
+this new run. Fresh demo API results and independently repeated restart and
+failure-injection checks are included in [the demo artifacts](ITERATION_2_DEMO_GUIDE.md).
+
 Local test configuration: `DJANGO_DEBUG=True`, `ALLOWED_HOSTS=testserver,localhost,127.0.0.1`; no production secret is needed in this local configuration.
 
 | Command | Observed result | Evidence |
@@ -35,7 +46,7 @@ All test names below are in [test_iteration2_effort_reliability.py](../tests/tes
 | #20 / NFR-03 / TC-17 | `test_endpoint_failure_rolls_back_tasks_entries_audit_and_notifications` | Inject failure after actual audit insertion in create/edit/time create/update/delete and after notification insertion during task create. Compare complete task/entry/audit/notification snapshots; all unchanged after failure. PASS. |
 | #20 / NFR-03 | `RestartPersistenceTests.test_committed_api_updates_survive_new_application_process` | Writer process migrates temporary SQLite, commits API create/edit/time log, exits; reader starts independently and checks task title/version/estimate, actual total, date/note and audit actions. PASS. |
 | #40 / DOC-02 | This report, matrix and raw logs | Executed results separated from skipped and missing evidence. Prepared. |
-| #41 / DOC-03 | [Final report](FINAL_PROJECT_REPORT.md), [demo guide](ITERATION_2_DEMO_GUIDE.md) | Report/script prepared. Recordings missing: PARTIAL, not complete. |
+| #41 / DOC-03 | [Final report](FINAL_PROJECT_REPORT.md), [demonstration evidence and guide](ITERATION_2_DEMO_GUIDE.md) | Report, walkthrough, actual API source evidence and renderer included. Video binaries excluded at the user's request; video submission remains outside this change. |
 
 ## Performance observation
 
@@ -45,7 +56,7 @@ The separate opt-in test used 500 tasks, 20 members and 2000 activity events, 5 
 
 - The default full run skips the opt-in performance method because `RUN_PERFORMANCE_TESTS` is unset. It was then run explicitly and passed, as recorded above.
 - Chrome Stable and Firefox browser compatibility methods are opt-in (`RUN_BROWSER_TESTS=1` and Playwright). They were not executed in this environment. Rendered-template/accessibility tests do not substitute for those real browser workflows.
-- No sprint video recording was supplied or produced. No completed recording is claimed; #41 remains partially complete.
+- Video files are not included in this change. The renderer and source evidence cover API execution and test output, not browser screen recordings or historical sprint captures. Browser criteria remain outside their evidence scope.
 - PostgreSQL, production deployment/load, power-loss recovery, full HTTP server restart and manual keyboard/browser evaluation were not executed. The persistence test specifically verifies fresh Django processes and an on-disk SQLite database.
 - Inherited TC-16 tests include smaller fixtures or database count checks; inherited TC-17 refresh/atomic tests do not demonstrate application restart. The new tests above supply the stronger evidence required here.
 

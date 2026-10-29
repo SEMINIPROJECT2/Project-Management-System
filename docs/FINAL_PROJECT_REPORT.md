@@ -1,6 +1,7 @@
 # Final project report — Iteration 2
 
-Execution date: 28 October 2026 (Asia/Calcutta).
+Original verification: 28 October 2026. Evidence and report re-verification:
+29 October 2026 (Asia/Calcutta).
 Scope: only assigned issues #9, #10, #19, #20, #40 and #41.
 Base: latest main `5e45107c2b84f8208d64e39a3f17dd67d3cfca91`.
 
@@ -15,15 +16,21 @@ The existing Django application provides accounts, project membership, a Kanban 
 | #19 / NFR-02 | All 500 tasks, 20 memberships and 2000 activity events are retrieved and compared by ID. Activity history no longer silently truncates at 100 rows and has deterministic newest-first ordering. | Capacity regression test and separate performance run |
 | #20 / NFR-03 | Task edits and time logs survive termination and startup in another Django process using a temporary file database. Injected endpoint failures roll back task/entry, audit and notification writes. Existing transaction boundaries passed; no transaction rewrite was necessary. | Process restart and failure injection tests |
 | #40 / DOC-02 | Test results, skipped checks, defects and requirement-to-test links documented. | [Test results and traceability](TEST_RESULTS_AND_TRACEABILITY_REPORT.md) |
-| #41 / DOC-03 | Report and scoped demonstration script prepared. Recordings are missing; this issue remains partially complete. | [Demo guide](ITERATION_2_DEMO_GUIDE.md) |
+| #41 / DOC-03 | Final report, walkthrough scripts, actual API evidence and reproducible video generator prepared. Video binaries are intentionally excluded from Git; #41 remains open for video submission. | [Evidence and reproduction guide](ITERATION_2_DEMO_GUIDE.md) |
 
 ## Validation
 
 Full suite: 133 discovered, 130 passed, 3 skipped, 0 failures/errors in 397.531 seconds. The opt-in performance test passed separately; Chrome and Firefox browser workflows remain unexecuted. See the test report and raw execution logs for commands and limitations. SQLite on Windows and Python 3.13 are the tested environment. Tests do not establish PostgreSQL behavior, production load capacity, power-loss recovery or a real web-server process restart; the restart test starts independent Django application processes with the same SQLite file.
 
+Demo-delivery re-verification on 29 October used Linux, Python 3.12, Django
+5.2.18 and SQLite: 133 discovered, 130 passed, 3 skipped, zero failures/errors
+in 81.196 seconds. The [fresh log](test-evidence/demo-delivery-tests.txt) and
+[demonstration source evidence](ITERATION_2_DEMO_GUIDE.md) accompany this report. The original
+Windows timing above is retained as historical evidence.
+
 ## Known limitations and future improvements
 
-- No sprint video recording or verified recording URL was supplied or created. A script is not a completed recording, and #41 must remain open until recordings are produced and reviewed.
+- Video binaries are excluded at the user's request. The reproduction script renders captioned actual API results and test output, not browser interactions or historical sprint captures. It does not establish browser compatibility or usability action counts.
 - Browser execution is optional in the existing suite; skipped checks are recorded separately from passes.
 - Time-entry date and note edits are supported through the API. The existing board offers log creation and deletion; an edit/date picker UI is future work.
 - The complete activity response is appropriate to the required 2000-event fixture. Larger histories would benefit from explicit pagination with a tested full-history traversal contract.
