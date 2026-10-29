@@ -158,6 +158,11 @@ python manage.py test --verbosity=2
 ---
 
 ## 8. Documentation Artifacts & Architecture Specifications
+
+- **[Demonstration guide and reproduction instructions](docs/ITERATION_2_DEMO_GUIDE.md)**:
+  Estimates/time logging and capacity/reliability, source API evidence, and
+  browser-verification limits. Video binaries are excluded from this repository.
+
 - **[Software Architecture Document (SAD v1.1)](docs/ARCHITECTURE.md)**: Monolithic layered design, Django component boundaries, Mermaid database ER schema, and REST interface contracts.
 - **[System and Acceptance Test Report](docs/SYSTEM_AND_ACCEPTANCE_TEST_REPORT.md)**: Full verification record for acceptance cases TC-01 through TC-18 with 100% pass rate.
 - **[Test Results and Traceability Report](docs/TEST_RESULTS_AND_TRACEABILITY_REPORT.md)**: Comprehensive SRS-to-SAD-to-STP requirements traceability matrix.
