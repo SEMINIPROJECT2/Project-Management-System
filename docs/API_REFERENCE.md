@@ -60,3 +60,23 @@ The task list supports intersection filters: `assignee`, `priority`,
   the server; client controls are never trusted as authorization.
 - Status transitions accept `expected_version`. A stale version returns HTTP
   `409` with code `CONFLICT`, preventing silent overwrites.
+
+## Iteration 2 effort and history contract
+
+Estimates are finite decimal values in 0.5-hour steps, from 0 through 9999.5
+(the largest allowed step within `DecimalField(max_digits=6, decimal_places=2)`).
+Time-entry hours are finite, strictly positive quarter-hour values through 999.75
+within the existing five-digit, two-decimal storage field. Invalid values return
+HTTP 400 with `INVALID_ESTIMATE` or `INVALID_HOURS`.
+
+Time-entry creation accepts `hours`, optional `date` and optional textual `note`.
+Omitting `date` uses the application's local date; supplying a blank, null or invalid
+date returns `INVALID_DATE`. Notes may be blank and are trimmed; non-text notes
+return `INVALID_NOTE`. Time-entry PUT/POST requires `hours`; supplied `date` and
+`note` are updated, and omitted ones are retained. Create/edit responses include
+`date`, `note` and recomputed `actual_hours`. Only the entry creator may edit/delete,
+including when another caller is an Owner or Manager.
+
+`GET /audit/projects/{project_id}/activity/` returns all project events in the
+existing `events` array, ordered by descending creation timestamp and ID. It has
+no silent 100-event cutoff. Project membership remains required.
