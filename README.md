@@ -1,4 +1,16 @@
 # Project Management System (PMS)
+
+## Part 3 testing submission
+
+The current [Part 3 reports](docs/part3/README.md) include the
+[updated Test Case Document v1.1](docs/TEST_CASE_DOCUMENT.md), unit test report,
+system validation report, code coverage report and branch coverage report.
+Raw hosted/local execution evidence and the optional Sprint 3 fixes are retained.
+These results supersede earlier execution claims for the changed build.
+
+Reproduce with `pip install -r requirements-test.txt`, install Chrome/Firefox
+using Playwright, then run `python scripts/run_part3_tests.py`.
+
 **Software Engineering Mini-Project &bull; Group 27**  
 *Comprehensive Web-Based Project Management, Kanban Workflow, and Traceability Platform*
 

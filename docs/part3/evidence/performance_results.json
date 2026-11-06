@@ -1,0 +1,23 @@
+{
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 4.435251,
+  "records": [
+    {
+      "id": "tests.test_board_performance.BoardPerformanceTests.test_nfr01_board_and_task_list_p95_under_two_seconds",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.563696
+    },
+    {
+      "id": "tests.test_concurrent_performance.ConcurrentPerformanceTests.test_twenty_users_and_one_hundred_http_requests",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 3.526142
+    }
+  ]
+}

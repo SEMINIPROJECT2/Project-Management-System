@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-06T17:46:12.589413+00:00",
+  "python": "3.12.16",
+  "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+  "django": "5.2.19",
+  "source_sha": "de496554513c8ce0ba146965949f9c16eb6a01ed",
+  "execution_context": "GitHub Actions",
+  "commands": [
+    {
+      "command": "python -m coverage erase",
+      "returncode": 0,
+      "log": "coverage_erase.txt"
+    },
+    {
+      "command": "python -m coverage run manage.py test --settings=tests.part3_settings --testrunner=tests.reporting_runner.Part3TestRunner --verbosity=2",
+      "returncode": 0,
+      "log": "full_test_run.txt"
+    },
+    {
+      "command": "python -m coverage combine",
+      "returncode": 0,
+      "log": "coverage_combine.txt"
+    },
+    {
+      "command": "python -m coverage report",
+      "returncode": 0,
+      "log": "coverage_summary.txt"
+    },
+    {
+      "command": "python -m coverage json -o /home/runner/work/Project-Management-System/Project-Management-System/docs/part3/evidence/coverage.json",
+      "returncode": 0,
+      "log": "coverage_json.txt"
+    },
+    {
+      "command": "python -m coverage xml -o /home/runner/work/Project-Management-System/Project-Management-System/docs/part3/evidence/coverage.xml",
+      "returncode": 0,
+      "log": "coverage_xml.txt"
+    },
+    {
+      "command": "python -m coverage html",
+      "returncode": 0,
+      "log": "coverage_html.txt"
+    },
+    {
+      "command": "python manage.py check",
+      "returncode": 0,
+      "log": "django_check.txt"
+    },
+    {
+      "command": "python manage.py makemigrations --check --dry-run",
+      "returncode": 0,
+      "log": "migration_check.txt"
+    },
+    {
+      "command": "python manage.py test tests.test_board_performance tests.test_concurrent_performance --settings=tests.part3_settings --testrunner=tests.reporting_runner.Part3TestRunner --verbosity=2",
+      "returncode": 0,
+      "log": "performance_run.txt"
+    }
+  ]
+}

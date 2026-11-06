@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-06T17:44:52.130908+00:00",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "django": "5.2.18",
+  "source_sha": "04b8f0f1a529ab7855a83f2003b160eb026325fb",
+  "execution_context": "Local runtime",
+  "commands": [
+    {
+      "command": "python -m coverage erase",
+      "returncode": 0,
+      "log": "coverage_erase.txt"
+    },
+    {
+      "command": "python -m coverage run manage.py test --settings=tests.part3_settings --testrunner=tests.reporting_runner.Part3TestRunner --verbosity=2",
+      "returncode": 0,
+      "log": "full_test_run.txt"
+    },
+    {
+      "command": "python -m coverage combine",
+      "returncode": 0,
+      "log": "coverage_combine.txt"
+    },
+    {
+      "command": "python -m coverage report",
+      "returncode": 0,
+      "log": "coverage_summary.txt"
+    },
+    {
+      "command": "python -m coverage json -o /workspace/scratch/303474dc624a/pms-part3/docs/part3/evidence/coverage.json",
+      "returncode": 0,
+      "log": "coverage_json.txt"
+    },
+    {
+      "command": "python -m coverage xml -o /workspace/scratch/303474dc624a/pms-part3/docs/part3/evidence/coverage.xml",
+      "returncode": 0,
+      "log": "coverage_xml.txt"
+    },
+    {
+      "command": "python -m coverage html",
+      "returncode": 0,
+      "log": "coverage_html.txt"
+    },
+    {
+      "command": "python manage.py check",
+      "returncode": 0,
+      "log": "django_check.txt"
+    },
+    {
+      "command": "python manage.py makemigrations --check --dry-run",
+      "returncode": 0,
+      "log": "migration_check.txt"
+    },
+    {
+      "command": "python manage.py test tests.test_board_performance tests.test_concurrent_performance --settings=tests.part3_settings --testrunner=tests.reporting_runner.Part3TestRunner --verbosity=2",
+      "returncode": 1,
+      "log": "performance_run.txt"
+    }
+  ]
+}

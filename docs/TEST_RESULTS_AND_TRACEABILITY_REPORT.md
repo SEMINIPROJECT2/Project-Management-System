@@ -1,5 +1,8 @@
 # Test results and traceability — Iteration 2
 
+Historical execution record. The current Part 3 qualification, updated cases and
+coverage measurements are linked from [docs/part3/README.md](part3/README.md).
+
 Execution date: 28 October 2026 (Asia/Calcutta).
 Scope: #9, #10, #19, #20, #40 and #41, assigned to SaquinSauron.
 Base main: `5e45107c2b84f8208d64e39a3f17dd67d3cfca91`.

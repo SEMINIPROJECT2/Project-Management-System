@@ -1,0 +1,623 @@
+{
+  "fixture": {
+    "tasks": 500,
+    "members": 20,
+    "events": 2000
+  },
+  "users": 20,
+  "requests": 100,
+  "summary": {
+    "board": {
+      "requests": 50,
+      "p95_seconds": 0.22341021899998736,
+      "maximum_seconds": 0.24811575500001481
+    },
+    "tasks": {
+      "requests": 50,
+      "p95_seconds": 1.2108073109999964,
+      "maximum_seconds": 1.2310921840000049
+    }
+  },
+  "samples": [
+    {
+      "user": 0,
+      "endpoint": "board",
+      "seconds": 0.24811575500001481,
+      "status": 200
+    },
+    {
+      "user": 0,
+      "endpoint": "tasks",
+      "seconds": 1.1171725899999956,
+      "status": 200
+    },
+    {
+      "user": 0,
+      "endpoint": "board",
+      "seconds": 0.1691918759999851,
+      "status": 200
+    },
+    {
+      "user": 0,
+      "endpoint": "tasks",
+      "seconds": 1.227134360000008,
+      "status": 200
+    },
+    {
+      "user": 0,
+      "endpoint": "board",
+      "seconds": 0.06439037900000244,
+      "status": 200
+    },
+    {
+      "user": 1,
+      "endpoint": "tasks",
+      "seconds": 1.1783969390000095,
+      "status": 200
+    },
+    {
+      "user": 1,
+      "endpoint": "board",
+      "seconds": 0.20533992099998954,
+      "status": 200
+    },
+    {
+      "user": 1,
+      "endpoint": "tasks",
+      "seconds": 1.1704837069999883,
+      "status": 200
+    },
+    {
+      "user": 1,
+      "endpoint": "board",
+      "seconds": 0.15017455500000665,
+      "status": 200
+    },
+    {
+      "user": 1,
+      "endpoint": "tasks",
+      "seconds": 0.4879435160000014,
+      "status": 200
+    },
+    {
+      "user": 2,
+      "endpoint": "board",
+      "seconds": 0.15914107200001126,
+      "status": 200
+    },
+    {
+      "user": 2,
+      "endpoint": "tasks",
+      "seconds": 0.9610851660000037,
+      "status": 200
+    },
+    {
+      "user": 2,
+      "endpoint": "board",
+      "seconds": 0.1782863690000056,
+      "status": 200
+    },
+    {
+      "user": 2,
+      "endpoint": "tasks",
+      "seconds": 1.1263560559999917,
+      "status": 200
+    },
+    {
+      "user": 2,
+      "endpoint": "board",
+      "seconds": 0.1666966299999899,
+      "status": 200
+    },
+    {
+      "user": 3,
+      "endpoint": "tasks",
+      "seconds": 1.0844218000000012,
+      "status": 200
+    },
+    {
+      "user": 3,
+      "endpoint": "board",
+      "seconds": 0.14670082000000662,
+      "status": 200
+    },
+    {
+      "user": 3,
+      "endpoint": "tasks",
+      "seconds": 1.2108073109999964,
+      "status": 200
+    },
+    {
+      "user": 3,
+      "endpoint": "board",
+      "seconds": 0.1768293179999887,
+      "status": 200
+    },
+    {
+      "user": 3,
+      "endpoint": "tasks",
+      "seconds": 0.5384149950000108,
+      "status": 200
+    },
+    {
+      "user": 4,
+      "endpoint": "board",
+      "seconds": 0.19808526600002097,
+      "status": 200
+    },
+    {
+      "user": 4,
+      "endpoint": "tasks",
+      "seconds": 1.0778704859999948,
+      "status": 200
+    },
+    {
+      "user": 4,
+      "endpoint": "board",
+      "seconds": 0.20818294299999707,
+      "status": 200
+    },
+    {
+      "user": 4,
+      "endpoint": "tasks",
+      "seconds": 1.0981377530000032,
+      "status": 200
+    },
+    {
+      "user": 4,
+      "endpoint": "board",
+      "seconds": 0.16168712500001448,
+      "status": 200
+    },
+    {
+      "user": 5,
+      "endpoint": "tasks",
+      "seconds": 1.1939639439999894,
+      "status": 200
+    },
+    {
+      "user": 5,
+      "endpoint": "board",
+      "seconds": 0.18599292800001876,
+      "status": 200
+    },
+    {
+      "user": 5,
+      "endpoint": "tasks",
+      "seconds": 1.1497922810000034,
+      "status": 200
+    },
+    {
+      "user": 5,
+      "endpoint": "board",
+      "seconds": 0.1475901809999982,
+      "status": 200
+    },
+    {
+      "user": 5,
+      "endpoint": "tasks",
+      "seconds": 0.48851455799999144,
+      "status": 200
+    },
+    {
+      "user": 6,
+      "endpoint": "board",
+      "seconds": 0.22483726100000467,
+      "status": 200
+    },
+    {
+      "user": 6,
+      "endpoint": "tasks",
+      "seconds": 1.1504576210000153,
+      "status": 200
+    },
+    {
+      "user": 6,
+      "endpoint": "board",
+      "seconds": 0.14580447599999502,
+      "status": 200
+    },
+    {
+      "user": 6,
+      "endpoint": "tasks",
+      "seconds": 1.113271014999981,
+      "status": 200
+    },
+    {
+      "user": 6,
+      "endpoint": "board",
+      "seconds": 0.1372108790000084,
+      "status": 200
+    },
+    {
+      "user": 7,
+      "endpoint": "tasks",
+      "seconds": 1.2310921840000049,
+      "status": 200
+    },
+    {
+      "user": 7,
+      "endpoint": "board",
+      "seconds": 0.21792622200001688,
+      "status": 200
+    },
+    {
+      "user": 7,
+      "endpoint": "tasks",
+      "seconds": 1.0474907539999947,
+      "status": 200
+    },
+    {
+      "user": 7,
+      "endpoint": "board",
+      "seconds": 0.1349939150000239,
+      "status": 200
+    },
+    {
+      "user": 7,
+      "endpoint": "tasks",
+      "seconds": 0.5509220300000095,
+      "status": 200
+    },
+    {
+      "user": 8,
+      "endpoint": "board",
+      "seconds": 0.21550697899999705,
+      "status": 200
+    },
+    {
+      "user": 8,
+      "endpoint": "tasks",
+      "seconds": 1.1296424840000157,
+      "status": 200
+    },
+    {
+      "user": 8,
+      "endpoint": "board",
+      "seconds": 0.1594847470000218,
+      "status": 200
+    },
+    {
+      "user": 8,
+      "endpoint": "tasks",
+      "seconds": 1.1271126739999886,
+      "status": 200
+    },
+    {
+      "user": 8,
+      "endpoint": "board",
+      "seconds": 0.16033466700000076,
+      "status": 200
+    },
+    {
+      "user": 9,
+      "endpoint": "tasks",
+      "seconds": 1.1378809020000062,
+      "status": 200
+    },
+    {
+      "user": 9,
+      "endpoint": "board",
+      "seconds": 0.16975880000001098,
+      "status": 200
+    },
+    {
+      "user": 9,
+      "endpoint": "tasks",
+      "seconds": 1.1330077549999942,
+      "status": 200
+    },
+    {
+      "user": 9,
+      "endpoint": "board",
+      "seconds": 0.156336170000003,
+      "status": 200
+    },
+    {
+      "user": 9,
+      "endpoint": "tasks",
+      "seconds": 0.5781736039999998,
+      "status": 200
+    },
+    {
+      "user": 10,
+      "endpoint": "board",
+      "seconds": 0.17817553499997985,
+      "status": 200
+    },
+    {
+      "user": 10,
+      "endpoint": "tasks",
+      "seconds": 1.0694938130000082,
+      "status": 200
+    },
+    {
+      "user": 10,
+      "endpoint": "board",
+      "seconds": 0.1981156559999988,
+      "status": 200
+    },
+    {
+      "user": 10,
+      "endpoint": "tasks",
+      "seconds": 1.0100125919999812,
+      "status": 200
+    },
+    {
+      "user": 10,
+      "endpoint": "board",
+      "seconds": 0.14415265299999191,
+      "status": 200
+    },
+    {
+      "user": 11,
+      "endpoint": "tasks",
+      "seconds": 1.0862284560000148,
+      "status": 200
+    },
+    {
+      "user": 11,
+      "endpoint": "board",
+      "seconds": 0.12803485700001715,
+      "status": 200
+    },
+    {
+      "user": 11,
+      "endpoint": "tasks",
+      "seconds": 1.1388606780000146,
+      "status": 200
+    },
+    {
+      "user": 11,
+      "endpoint": "board",
+      "seconds": 0.12253475800000047,
+      "status": 200
+    },
+    {
+      "user": 11,
+      "endpoint": "tasks",
+      "seconds": 0.6746915399999978,
+      "status": 200
+    },
+    {
+      "user": 12,
+      "endpoint": "board",
+      "seconds": 0.21170131899998523,
+      "status": 200
+    },
+    {
+      "user": 12,
+      "endpoint": "tasks",
+      "seconds": 1.0712767779999979,
+      "status": 200
+    },
+    {
+      "user": 12,
+      "endpoint": "board",
+      "seconds": 0.19667055099998265,
+      "status": 200
+    },
+    {
+      "user": 12,
+      "endpoint": "tasks",
+      "seconds": 1.1984943740000062,
+      "status": 200
+    },
+    {
+      "user": 12,
+      "endpoint": "board",
+      "seconds": 0.10974666399999933,
+      "status": 200
+    },
+    {
+      "user": 13,
+      "endpoint": "tasks",
+      "seconds": 1.1597323660000143,
+      "status": 200
+    },
+    {
+      "user": 13,
+      "endpoint": "board",
+      "seconds": 0.16371635100000503,
+      "status": 200
+    },
+    {
+      "user": 13,
+      "endpoint": "tasks",
+      "seconds": 1.0678364739999893,
+      "status": 200
+    },
+    {
+      "user": 13,
+      "endpoint": "board",
+      "seconds": 0.12367565200000286,
+      "status": 200
+    },
+    {
+      "user": 13,
+      "endpoint": "tasks",
+      "seconds": 0.6395265310000013,
+      "status": 200
+    },
+    {
+      "user": 14,
+      "endpoint": "board",
+      "seconds": 0.21373447799999212,
+      "status": 200
+    },
+    {
+      "user": 14,
+      "endpoint": "tasks",
+      "seconds": 1.2015051439999809,
+      "status": 200
+    },
+    {
+      "user": 14,
+      "endpoint": "board",
+      "seconds": 0.13958161799999402,
+      "status": 200
+    },
+    {
+      "user": 14,
+      "endpoint": "tasks",
+      "seconds": 1.1809198980000133,
+      "status": 200
+    },
+    {
+      "user": 14,
+      "endpoint": "board",
+      "seconds": 0.07424730300002125,
+      "status": 200
+    },
+    {
+      "user": 15,
+      "endpoint": "tasks",
+      "seconds": 1.1017224260000091,
+      "status": 200
+    },
+    {
+      "user": 15,
+      "endpoint": "board",
+      "seconds": 0.19737726099998554,
+      "status": 200
+    },
+    {
+      "user": 15,
+      "endpoint": "tasks",
+      "seconds": 1.073211434000001,
+      "status": 200
+    },
+    {
+      "user": 15,
+      "endpoint": "board",
+      "seconds": 0.13885990299999662,
+      "status": 200
+    },
+    {
+      "user": 15,
+      "endpoint": "tasks",
+      "seconds": 0.6561052389999986,
+      "status": 200
+    },
+    {
+      "user": 16,
+      "endpoint": "board",
+      "seconds": 0.2079183069999999,
+      "status": 200
+    },
+    {
+      "user": 16,
+      "endpoint": "tasks",
+      "seconds": 1.1329327299999932,
+      "status": 200
+    },
+    {
+      "user": 16,
+      "endpoint": "board",
+      "seconds": 0.17686746000001108,
+      "status": 200
+    },
+    {
+      "user": 16,
+      "endpoint": "tasks",
+      "seconds": 1.1806460760000164,
+      "status": 200
+    },
+    {
+      "user": 16,
+      "endpoint": "board",
+      "seconds": 0.0961200399999882,
+      "status": 200
+    },
+    {
+      "user": 17,
+      "endpoint": "tasks",
+      "seconds": 1.1383703380000156,
+      "status": 200
+    },
+    {
+      "user": 17,
+      "endpoint": "board",
+      "seconds": 0.16534265800001435,
+      "status": 200
+    },
+    {
+      "user": 17,
+      "endpoint": "tasks",
+      "seconds": 1.0874217610000017,
+      "status": 200
+    },
+    {
+      "user": 17,
+      "endpoint": "board",
+      "seconds": 0.15157320099999083,
+      "status": 200
+    },
+    {
+      "user": 17,
+      "endpoint": "tasks",
+      "seconds": 0.6304476849999787,
+      "status": 200
+    },
+    {
+      "user": 18,
+      "endpoint": "board",
+      "seconds": 0.20218122700001118,
+      "status": 200
+    },
+    {
+      "user": 18,
+      "endpoint": "tasks",
+      "seconds": 1.0550172699999791,
+      "status": 200
+    },
+    {
+      "user": 18,
+      "endpoint": "board",
+      "seconds": 0.1893065730000103,
+      "status": 200
+    },
+    {
+      "user": 18,
+      "endpoint": "tasks",
+      "seconds": 1.1500927619999857,
+      "status": 200
+    },
+    {
+      "user": 18,
+      "endpoint": "board",
+      "seconds": 0.1363879169999791,
+      "status": 200
+    },
+    {
+      "user": 19,
+      "endpoint": "tasks",
+      "seconds": 1.1934731609999858,
+      "status": 200
+    },
+    {
+      "user": 19,
+      "endpoint": "board",
+      "seconds": 0.22341021899998736,
+      "status": 200
+    },
+    {
+      "user": 19,
+      "endpoint": "tasks",
+      "seconds": 1.0795076349999988,
+      "status": 200
+    },
+    {
+      "user": 19,
+      "endpoint": "board",
+      "seconds": 0.18132664899999895,
+      "status": 200
+    },
+    {
+      "user": 19,
+      "endpoint": "tasks",
+      "seconds": 0.5109967470000072,
+      "status": 200
+    }
+  ]
+}

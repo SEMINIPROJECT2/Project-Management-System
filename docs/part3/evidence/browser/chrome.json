@@ -1,0 +1,26 @@
+{
+  "browser": "Chrome",
+  "version": "157.0.8103.38",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "project_actions": [
+    "open dialog",
+    "enter name",
+    "enter description",
+    "submit"
+  ],
+  "task_actions": [
+    "open dialog",
+    "enter title",
+    "submit"
+  ],
+  "count_scope": "After sign-in and navigation; one click, field fill or submit counts as one action.",
+  "keyboard": [
+    "focus card and Enter",
+    "Home and ArrowDown status changes",
+    "Escape closes modal"
+  ],
+  "javascript_errors": []
+}
