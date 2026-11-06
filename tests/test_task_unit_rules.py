@@ -22,7 +22,7 @@ class TaskInputHelperUnitTests(SimpleTestCase):
         self.assertEqual(parse_decimal(1.25), Decimal("1.25"))
 
     def test_parse_decimal_rejects_invalid_values(self):
-        for value in (None, "", "not-a-number"):
+        for value in (None, "", "not-a-number", "NaN", "sNaN", "Infinity", "-Infinity", True):
             with self.subTest(value=value):
                 self.assertIsNone(parse_decimal(value))
 
@@ -35,7 +35,7 @@ class TaskInputHelperUnitTests(SimpleTestCase):
         self.assertEqual(parse_optional_date("2026-10-26"), expected)
 
     def test_parse_optional_date_rejects_invalid_dates(self):
-        for value in ("not-a-date", "2026-13-40", "26/10/2026"):
+        for value in ("not-a-date", "2026-13-40", "2026-02-30", "26/10/2026", [], {}):
             with self.subTest(value=value):
                 self.assertIs(parse_optional_date(value), False)
 
