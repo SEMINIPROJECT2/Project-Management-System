@@ -32,8 +32,8 @@ def table(headers, rows):
 
 
 context = f"Execution: {environment['date']} ({environment['execution_context']}). Python {environment['python']}, Django {environment['django']}, SQLite. Source revision: `{environment['source_sha']}`.\n\nPlatform: {environment['platform']}. The Part 3 test settings create and destroy a separate on-disk database; development data is not used."
-summary = f"{results['tests_run']} test methods executed: {counts['passed']} passed, {results['skipped']} skipped, {results['failures']} failures and {results['errors']} errors in {results['seconds']:.3f} seconds."
-evidence_links = '[Raw execution log](evidence/full_test_run.txt), [named outcomes](evidence/test_results.json), [environment/commands](evidence/environment.json).'
+summary = f"{results['tests_run']} unique test methods verified across functional/coverage and separate untraced performance runs: {counts['passed']} passed, {results['skipped']} unexecuted/skipped, {results['failures']} failures and {results['errors']} errors. Combined runner time: {results['seconds']:.3f} seconds."
+evidence_links = '[Functional/coverage log](evidence/full_test_run.txt), [untraced performance log](evidence/performance_run.txt), [named outcomes](evidence/test_results.json), [environment/commands](evidence/environment.json). The functional run deliberately skips the two opt-in performance methods, which are then executed separately; these placeholders are replaced by their measured outcomes, not counted as additional unique tests.'
 unit_counts = Counter(r['status'] for r in unit)
 write('UNIT_TEST_REPORT.md', f'''# Unit Test Report
 
@@ -160,7 +160,7 @@ for filename, data in sorted(coverage['files'].items()):
     line_rows.append((filename, s['covered_lines'], s['num_statements'], percent(s['covered_lines'], s['num_statements']), ', '.join(map(str, data['missing_lines'])) or '-'))
     missing = '; '.join(f'{start}->{end}' for start,end in data.get('missing_branches', [])) or '-'
     branch_rows.append((filename, s.get('covered_branches',0), s.get('num_branches',0), percent(s.get('covered_branches',0), s.get('num_branches',0)), s.get('num_partial_branches',0), missing))
-scope = 'Coverage includes Python application modules in accounts, projects, tasks, audit, notifications and config. Only generated migration modules are excluded. Tests, vendored Django/Playwright, JavaScript, CSS and templates are outside the Python coverage denominator. Browser execution is measured by functional assertions rather than Python line coverage. Subprocess tracing is enabled and the child data is combined; no missing branch is excluded merely to increase the percentage.'
+scope = 'Coverage includes Python application modules in accounts, projects, tasks, audit, notifications and config. Only generated migration modules are excluded. Tests, vendored Django/Playwright, JavaScript, CSS and templates are outside the Python coverage denominator. Browser execution is measured by functional assertions rather than Python line coverage. Subprocess tracing is enabled and the child data is combined. Latency tests run separately without tracing so coverage overhead does not distort application timing. No missing branch is excluded merely to increase the percentage.'
 write('CODE_COVERAGE_REPORT.md', f'''# Code Coverage Report
 
 {context}
