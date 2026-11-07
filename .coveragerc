@@ -1,0 +1,14 @@
+[run]
+branch = True
+parallel = True
+relative_files = True
+source = accounts,projects,tasks,audit,notifications,config
+omit = */migrations/*
+patch = subprocess
+
+[report]
+show_missing = True
+precision = 2
+
+[html]
+directory = docs/part3/coverage_html

@@ -1,0 +1,971 @@
+{
+  "tests_run": 135,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 75.30708899999999,
+  "runner_method_entries": 137,
+  "runs": {
+    "functional_coverage": {
+      "tests_run": 135,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "seconds": 70.871838
+    },
+    "performance_without_tracing": {
+      "tests_run": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 4.435251
+    }
+  },
+  "records": [
+    {
+      "id": "tests.test_auth_and_security.AuthAndSecurityTests.test_sr03_csrf_and_session_protection",
+      "description": "SR-03: CSRF is enforced and session cookies use hardened defaults.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.436501
+    },
+    {
+      "id": "tests.test_auth_and_security.AuthAndSecurityTests.test_tc01_registration_valid_and_duplicate",
+      "description": "TC-01: Register fresh email; retry same email -> duplicate rejected.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.181326
+    },
+    {
+      "id": "tests.test_auth_and_security.AuthAndSecurityTests.test_tc02_sign_in_and_sign_out",
+      "description": "TC-02: Valid login opens session; logout closes; invalid password denied.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.528675
+    },
+    {
+      "id": "tests.test_auth_and_security.AuthAndSecurityTests.test_tc15_security_handling",
+      "description": "TC-15: Salted password hash (SR-02), output encoding (SR-04),",
+      "status": "passed",
+      "detail": "",
+      "seconds": 1.225112
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_authenticated_user_accessing_login_redirects",
+      "description": "Already signed-in user accessing login view is redirected to projects.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.188442
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_blank_credentials_rejected_with_400",
+      "description": "Missing email or password returns HTTP 400 Bad Request.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.181437
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_email_case_insensitivity",
+      "description": "Email matching is case-insensitive during login.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.351256
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_email_whitespace_trimmed",
+      "description": "Leading and trailing whitespace in email is trimmed during login.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.347012
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_invalid_password_json_returns_401",
+      "description": "Incorrect password via JSON returns 401 with structured error.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.342398
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_invalid_password_returns_401",
+      "description": "Incorrect password returns HTTP 401 and decrements remaining attempts.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.347055
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_nonexistent_email_returns_401",
+      "description": "Unregistered email returns 401 without creating session.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.347034
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_sign_out_closes_session",
+      "description": "Sign-out terminates the authenticated session and redirects to login.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.178694
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_sign_out_json_api",
+      "description": "JSON sign-out terminates session and returns 200.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.176265
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_unauthenticated_protected_route_redirects_to_login",
+      "description": "Unauthenticated user accessing protected project dashboard is redirected to login.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.170603
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_valid_login_form_creates_session_and_redirects",
+      "description": "Valid sign-in establishes an authenticated session and redirects to projects.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.35015
+    },
+    {
+      "id": "tests.test_auth_sessions.AuthSessionsTests.test_valid_login_json_api",
+      "description": "JSON sign-in returns 200 with user payload and sets session cookie.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.345672
+    },
+    {
+      "id": "tests.test_board_performance.BoardPerformanceTests.test_nfr01_board_and_task_list_p95_under_two_seconds",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.563696
+    },
+    {
+      "id": "tests.test_comments.TaskCommentAcceptanceTests.test_empty_and_whitespace_comments_are_rejected",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.545889
+    },
+    {
+      "id": "tests.test_comments.TaskCommentAcceptanceTests.test_member_can_add_comment_and_response_contains_required_fields",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.535156
+    },
+    {
+      "id": "tests.test_comments.TaskCommentAcceptanceTests.test_outsider_cannot_read_or_add_project_comments",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.527669
+    },
+    {
+      "id": "tests.test_comments.TaskCommentAcceptanceTests.test_task_detail_displays_comments_in_chronological_order",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.528857
+    },
+    {
+      "id": "tests.test_csv_export.TaskCSVExportTests.test_csv_contains_required_columns_and_correct_task_values",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.702607
+    },
+    {
+      "id": "tests.test_csv_export.TaskCSVExportTests.test_csv_excludes_tasks_from_other_projects",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.699195
+    },
+    {
+      "id": "tests.test_csv_export.TaskCSVExportTests.test_csv_orders_tasks_and_uses_unassigned_and_missing_date_values",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.698222
+    },
+    {
+      "id": "tests.test_csv_export.TaskCSVExportTests.test_empty_project_exports_header_without_data_rows",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.699449
+    },
+    {
+      "id": "tests.test_csv_export.TaskCSVExportTests.test_export_permissions_authentication_and_get_only_method",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.711611
+    },
+    {
+      "id": "tests.test_dashboard.ProgressDashboardTests.test_dashboard_reports_status_counts_and_hour_totals",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.545121
+    },
+    {
+      "id": "tests.test_dashboard.ProgressDashboardTests.test_dashboard_requires_project_membership_and_get_method",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.537811
+    },
+    {
+      "id": "tests.test_dashboard.ProgressDashboardTests.test_dashboard_totals_exclude_other_projects",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.534831
+    },
+    {
+      "id": "tests.test_dashboard.ProgressDashboardTests.test_empty_project_returns_zero_metrics",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.525627
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_empty_comment_rejected",
+      "description": "Empty or whitespace-only comments are rejected with HTTP 400 without creating records.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.181849
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_invalid_date_format_rejected_with_400",
+      "description": "Malformed date string is rejected with structured 400 error.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.178811
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_malformed_json_body_returns_400",
+      "description": "Posting invalid JSON body returns HTTP 400 structured error.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.177495
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_sql_injection_resistance_in_filters",
+      "description": "SQL injection attempts in filter parameters are parameterized and safely rejected.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.179764
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_sql_injection_resistance_in_task_search",
+      "description": "SQL injection attempts in search queries are safely parameterized without SQL syntax errors.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.201157
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_task_title_length_validation",
+      "description": "Task title exceeding 255 characters is rejected with HTTP 400 Bad Request.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.177792
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_task_title_whitespace_only_rejected",
+      "description": "Task title containing only whitespace is rejected with HTTP 400.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.177706
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_xss_payload_in_comment_is_sanitized",
+      "description": "XSS vectors in task comments are safely stored and returned as encoded JSON strings.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.187607
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_xss_payload_in_project_name_is_escaped",
+      "description": "XSS vectors in project names are escaped in the project listing.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.185295
+    },
+    {
+      "id": "tests.test_input_validation_and_encoding.InputValidationAndEncodingTests.test_xss_payload_in_task_title_is_escaped_in_html",
+      "description": "XSS vectors in task title are HTML-encoded during template rendering.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.186242
+    },
+    {
+      "id": "tests.test_integration_workflows.IntegrationWorkflowsTests.test_end_to_end_project_and_membership_flow",
+      "description": "Verify project workspace creation, owner assignment, member invitations, and notification dispatch.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.754816
+    },
+    {
+      "id": "tests.test_integration_workflows.IntegrationWorkflowsTests.test_end_to_end_task_crud_and_audit_logging",
+      "description": "Verify task lifecycle: creation, assignment, title mutation, and transactional audit trail.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.709246
+    },
+    {
+      "id": "tests.test_integration_workflows.IntegrationWorkflowsTests.test_optimistic_concurrency_control_integration",
+      "description": "Verify optimistic concurrency version checking prevents overwrites and returns 409 Conflict.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.711807
+    },
+    {
+      "id": "tests.test_integration_workflows.IntegrationWorkflowsTests.test_project_archival_lifecycle",
+      "description": "Verify archiving a project locks all mutation operations with HTTP 409 Conflict.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.701067
+    },
+    {
+      "id": "tests.test_integration_workflows.IntegrationWorkflowsTests.test_role_based_mutation_authorization_boundaries",
+      "description": "Verify strict authorization enforcement for Member vs Manager/Owner and outsiders.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.709343
+    },
+    {
+      "id": "tests.test_integration_workflows.IntegrationWorkflowsTests.test_time_logging_and_dashboard_recalculation_integration",
+      "description": "Verify time logging updates actual hours on the task and aggregates onto the progress dashboard.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.712049
+    },
+    {
+      "id": "tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_capacity_returns_all_tasks_members_events_and_isolates_projects",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.432065
+    },
+    {
+      "id": "tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_endpoint_failure_rolls_back_tasks_entries_audit_and_notifications",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.071348
+    },
+    {
+      "id": "tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_estimate_boundaries_and_authorized_roles",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.08588
+    },
+    {
+      "id": "tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_estimate_rejects_invalid_create_and_edit_without_writes",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.130545
+    },
+    {
+      "id": "tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_time_invalid_hours_dates_notes_create_and_edit",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.276647
+    },
+    {
+      "id": "tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_time_json_shape_errors",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.02245
+    },
+    {
+      "id": "tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_time_lifecycle_date_changes_notes_and_totals",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.051375
+    },
+    {
+      "id": "tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_time_ownership_scope_archival_and_forged_owner",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.064196
+    },
+    {
+      "id": "tests.test_kanban_ui.KanbanBoardUITests.test_board_renders_five_status_columns_and_board_script",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.701714
+    },
+    {
+      "id": "tests.test_kanban_ui.KanbanBoardUITests.test_manager_can_change_status_and_updated_board_data_is_returned",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.710186
+    },
+    {
+      "id": "tests.test_kanban_ui.KanbanBoardUITests.test_outsider_cannot_access_board_or_task_api",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.703026
+    },
+    {
+      "id": "tests.test_kanban_ui.KanbanBoardUITests.test_task_api_supplies_fields_needed_by_board_cards",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.701942
+    },
+    {
+      "id": "tests.test_kanban_ui.KanbanBoardUITests.test_task_card_renderer_displays_status_and_estimate_safely",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.69658
+    },
+    {
+      "id": "tests.test_keyboard_accessibility.KeyboardAccessibilityTests.test_board_script_contains_keyboard_bindings",
+      "description": "Verify board.js contains keyboard listeners for card activation and Escape dismissal.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.177143
+    },
+    {
+      "id": "tests.test_keyboard_accessibility.KeyboardAccessibilityTests.test_form_inputs_have_programmatic_labels",
+      "description": "Verify filter toolbar controls and search input have programmatic accessible labels.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.181311
+    },
+    {
+      "id": "tests.test_keyboard_accessibility.KeyboardAccessibilityTests.test_kanban_columns_have_accessible_labels",
+      "description": "Verify all 5 Kanban column bodies define accessible labels for screen readers.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.181086
+    },
+    {
+      "id": "tests.test_keyboard_accessibility.KeyboardAccessibilityTests.test_modal_keyboard_status_selector_rendered",
+      "description": "Verify the modal includes an accessible dropdown selector for keyboard-only status transitions.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.180678
+    },
+    {
+      "id": "tests.test_keyboard_accessibility.KeyboardAccessibilityTests.test_skip_to_main_content_link_rendered",
+      "description": "Verify skip-to-content link is present and targets #main-content.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.18161
+    },
+    {
+      "id": "tests.test_keyboard_accessibility.KeyboardAccessibilityTests.test_style_sheet_contains_focus_visible_rules",
+      "description": "Verify style.css provides explicit :focus-visible indicators and skip-link styles.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.174191
+    },
+    {
+      "id": "tests.test_notifications.NotificationWorkflowTests.test_assigning_task_to_actor_does_not_notify_actor",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.696513
+    },
+    {
+      "id": "tests.test_notifications.NotificationWorkflowTests.test_mark_all_read_only_changes_current_users_notifications",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.694579
+    },
+    {
+      "id": "tests.test_notifications.NotificationWorkflowTests.test_non_owner_cannot_invite_or_notify_user",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.710676
+    },
+    {
+      "id": "tests.test_notifications.NotificationWorkflowTests.test_notification_list_contains_only_current_users_notifications",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.6938
+    },
+    {
+      "id": "tests.test_notifications.NotificationWorkflowTests.test_only_recipient_can_mark_notification_as_read",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.700363
+    },
+    {
+      "id": "tests.test_notifications.NotificationWorkflowTests.test_owner_invitation_sends_one_notification_to_invitee",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.698678
+    },
+    {
+      "id": "tests.test_notifications.NotificationWorkflowTests.test_task_assignment_sends_one_notification_to_assignee",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.702731
+    },
+    {
+      "id": "tests.test_notifications.NotificationWorkflowTests.test_unknown_or_duplicate_invitation_sends_no_notification",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.703851
+    },
+    {
+      "id": "tests.test_part3_regressions.TaskListScalingTests.test_500_task_list_preserves_hours_with_bounded_query_count",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.094539
+    },
+    {
+      "id": "tests.test_projects_and_roles.ProjectsAndRolesTests.test_archived_project_rejects_all_mutations",
+      "description": "FR-16: Prevent all modifications to archived project across tasks, time logs, comments, and members.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.891372
+    },
+    {
+      "id": "tests.test_projects_and_roles.ProjectsAndRolesTests.test_tc03_create_project",
+      "description": "TC-03: Submit complete project form -> Project created; creator Owner.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.694093
+    },
+    {
+      "id": "tests.test_projects_and_roles.ProjectsAndRolesTests.test_tc04_membership_and_role_control",
+      "description": "TC-04: Owner invites; Member tries role change -> Member denied (403).",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.707987
+    },
+    {
+      "id": "tests.test_projects_and_roles.ProjectsAndRolesTests.test_tc13_csv_export_and_archive",
+      "description": "TC-13 / FR-16: Owner archives project; non-owners denied; read access retained; edits denied.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.746937
+    },
+    {
+      "id": "tests.test_projects_and_roles.ProjectsAndRolesTests.test_tc16_capacity_limits",
+      "description": "TC-16: Support 500 tasks, 20 members, and 2,000 audit events.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.909534
+    },
+    {
+      "id": "tests.test_projects_and_roles.ProjectsAndRolesTests.test_tc17_transaction_commit_and_rollback",
+      "description": "TC-17: Committed data survives refresh; aborted transactions leave no partial rows.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.691298
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc01_user_registration",
+      "description": "TC-01: Register user with unique email; duplicate email is rejected with 400.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.872675
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc02_authentication_and_sessions",
+      "description": "TC-02: Valid sign-in opens session; sign-out closes session; invalid password rejected.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 1.043372
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc03_project_creation",
+      "description": "TC-03: Create project -> Project created; creator designated Owner.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.697931
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc04_membership_and_role_escalation",
+      "description": "TC-04: Owner invites Manager; Member escalation to Owner rejected with 403.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 1.052633
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc05_task_creation_and_title_validation",
+      "description": "TC-05: Manager creates task in Backlog; blank title rejected with 400.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.804787
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc06_task_editing_permissions",
+      "description": "TC-06: Assignee edits title; assignee modifying estimate denied with 403; outsider gets 403/404.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.807168
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc07_kanban_transition_and_audit",
+      "description": "TC-07: Transition task status; transition atomically logged in ActivityEvent.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.801229
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc08_board_filters_intersection",
+      "description": "TC-08: Filter board by Assignee and Priority returns only the intersection.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.698203
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc09_effort_estimation_bounds",
+      "description": "TC-09: 2.5h accepted; negative, non-0.5 step, and non-numeric estimates rejected.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.707184
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc10_time_logging_and_recalculation",
+      "description": "TC-10: Member logs 1.25h and 0.75h; actual hours update from 0 to 2.0h.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.707917
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc11_progress_dashboard_metrics",
+      "description": "TC-11: Dashboard reports status counts, overdue count, and total hours accurately.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.703206
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc12_comments_and_scoped_search",
+      "description": "TC-12: Post comment; verify chronological order and search strictly scoped to authorized project.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.805352
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc13_csv_export_and_project_archival",
+      "description": "TC-13: Export CSV; archive project locks mutations with HTTP 409 Conflict.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.705737
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc14_notification_dispatch",
+      "description": "TC-14: Task assignment creates exactly one in-app notification for the assignee.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.728657
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc15_security_hash_csrf_and_lockout",
+      "description": "TC-15: Password hashing, CSRF enforcement, and 5-failed lockout on 6th attempt.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 1.946588
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc16_high_volume_capacity_scaling",
+      "description": "TC-16: High-volume query with tasks persists and returns all records without truncation.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.732365
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc17_transaction_atomic_rollback",
+      "description": "TC-17: Forced exception in atomic block cleanly rolls back uncommitted rows.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.796001
+    },
+    {
+      "id": "tests.test_system_acceptance.SystemAcceptanceSuiteTests.test_tc18_ui_action_count_and_accessibility",
+      "description": "TC-18: Board UI renders keyboard controls, landmarks, and accessible dropdown selector.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.806764
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskCalculationUnitTests.test_actual_hours_updates_when_entries_are_added_and_deleted",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.182772
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskCalculationUnitTests.test_overdue_calculation_respects_due_date_and_done_status",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.17298
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskValidationAndWorkflowUnitTests.test_estimate_accepts_half_hour_steps_and_rejects_other_values",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.20856
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskValidationAndWorkflowUnitTests.test_invalid_status_does_not_change_task_or_create_audit_event",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.191214
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskValidationAndWorkflowUnitTests.test_non_integer_expected_version_is_rejected",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.192969
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskValidationAndWorkflowUnitTests.test_stale_version_returns_conflict_without_changing_task",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.191409
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc05_task_creation_validation",
+      "description": "TC-05: Manager creates task; missing title attempt -> valid task in Backlog; invalid denied.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.708968
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc06_task_edit_permissions",
+      "description": "TC-06: Verify task editing permissions for assigned members,",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.722153
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc07_kanban_movement_and_audit",
+      "description": "TC-07: Move Backlog to In Progress -> Board and history reflect transition.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.69854
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc08_combined_board_filters",
+      "description": "TC-08 / FR-08: Filter tasks by assignee, priority, and due status -> Intersection only.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.719436
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc09_estimate_bounds",
+      "description": "TC-09: Submit 2.5, -1, 2.3 hours -> 2.5 accepted; others denied.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.709695
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc10_time_log_calculation",
+      "description": "TC-10: Log 1.25 and 0.75; edit own entry -> Actual hours recomputed correctly.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.721995
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc11_dashboard_totals",
+      "description": "TC-11: Seed known status and overdue records -> Counts and sums match fixture.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.696079
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc12_comments_and_search_scope",
+      "description": "TC-12: Comment and search across two projects -> Comment ordered; cross-project result hidden.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.700922
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc14_notification_delivery",
+      "description": "TC-14: Assign task and invite member -> One notification per event.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.696515
+    },
+    {
+      "id": "tests.test_tasks_and_workflow.TasksAndWorkflowTests.test_tc18_usability_and_keyboard_controls",
+      "description": "TC-18: Core project/task flows expose labeled controls within ten actions.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.706161
+    },
+    {
+      "id": "tests.test_browser_compatibility.BrowserCompatibilityTests.test_chrome_stable_core_workflows",
+      "description": "Verify login, project/task creation, search and status changes.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 3.693548
+    },
+    {
+      "id": "tests.test_browser_compatibility.BrowserCompatibilityTests.test_firefox_core_workflows",
+      "description": "Verify the same core workflows in Playwright-managed Firefox.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 5.769714
+    },
+    {
+      "id": "tests.test_concurrent_performance.ConcurrentPerformanceTests.test_twenty_users_and_one_hundred_http_requests",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 3.526142
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_allowed_hosts_are_required_when_debug_is_disabled",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.000107
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_allowed_hosts_are_split_and_trimmed",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 5.9e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_allowed_hosts_reject_empty_value",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 5.2e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_allowed_hosts_use_local_defaults_only_in_debug",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 4.3e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_boolean_setting_accepts_common_true_and_false_values",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.000204
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_boolean_setting_rejects_invalid_values",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 5.2e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_boolean_setting_uses_default_when_unset",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 4.1e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_secret_key_has_local_only_fallback_in_debug",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 4e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_secret_key_is_required_when_debug_is_disabled",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 6.3e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_secret_key_rejects_example_placeholder",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 6.2e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_secret_key_requires_minimum_length_in_production",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 5.1e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_secret_key_uses_configured_value",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 4.9e-05
+    },
+    {
+      "id": "tests.test_environment_configuration.EnvironmentConfigurationTests.test_wildcard_hosts_are_rejected_when_debug_is_disabled",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 4.9e-05
+    },
+    {
+      "id": "tests.test_iteration2_effort_reliability.RestartPersistenceTests.test_committed_api_updates_survive_new_application_process",
+      "description": "Two independent Django processes use one temporary, migrated SQLite file.",
+      "status": "passed",
+      "detail": "",
+      "seconds": 1.553739
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskInputHelperUnitTests.test_parse_decimal_accepts_numeric_values",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 8.7e-05
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskInputHelperUnitTests.test_parse_decimal_rejects_invalid_values",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.000179
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskInputHelperUnitTests.test_parse_optional_date_handles_blank_and_valid_dates",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 6.6e-05
+    },
+    {
+      "id": "tests.test_task_unit_rules.TaskInputHelperUnitTests.test_parse_optional_date_rejects_invalid_dates",
+      "description": "",
+      "status": "passed",
+      "detail": "",
+      "seconds": 0.000243
+    }
+  ]
+}

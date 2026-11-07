@@ -182,7 +182,9 @@ def task_list_create_view(request, project_id):
         return redirect('projects:project_detail', project_id=project.id)
 
     # GET: Filter and Search tasks
-    tasks_qs = Task.objects.filter(project=project).select_related('assignee')
+    tasks_qs = Task.objects.filter(project=project).select_related('assignee').annotate(
+        _actual_hours_total=models.Sum('time_entries__hours')
+    )
 
     # Search by title or ID (FR-14 / TC-12)
     q = request.GET.get('q', '').strip()
@@ -217,23 +219,30 @@ def task_list_create_view(request, project_id):
     elif due_filter in ['none', 'no_due_date', 'undated']:
         tasks_qs = tasks_qs.filter(due_date__isnull=True)
 
+    # Fetch the response fields directly. This avoids constructing 500 Task/User
+    # instances and repeatedly resolving dates during concurrent board reads.
+    rows = tasks_qs.values(
+        'id', 'title', 'description', 'status', 'priority', 'estimate_hours',
+        '_actual_hours_total', 'due_date', 'version', 'assignee_id',
+        'assignee__email', 'assignee__full_name',
+    )
     data = [
         {
-            'id': t.id,
-            'title': t.title,
-            'description': t.description,
-            'status': t.status,
-            'priority': t.priority,
-            'estimate_hours': str(t.estimate_hours),
-            'actual_hours': str(t.actual_hours),
-            'due_date': t.due_date.isoformat() if t.due_date else None,
-            'is_overdue': t.is_overdue,
-            'version': t.version,
-            'assignee_id': t.assignee.id if t.assignee else None,
-            'assignee_email': t.assignee.email if t.assignee else None,
-            'assignee_name': t.assignee.full_name if t.assignee else None,
+            'id': t['id'],
+            'title': t['title'],
+            'description': t['description'],
+            'status': t['status'],
+            'priority': t['priority'],
+            'estimate_hours': str(t['estimate_hours']),
+            'actual_hours': str(t['_actual_hours_total'] or Decimal('0.00')),
+            'due_date': t['due_date'].isoformat() if t['due_date'] else None,
+            'is_overdue': bool(t['due_date'] and t['due_date'] < today and t['status'] != Task.STATUS_DONE),
+            'version': t['version'],
+            'assignee_id': t['assignee_id'],
+            'assignee_email': t['assignee__email'],
+            'assignee_name': t['assignee__full_name'],
         }
-        for t in tasks_qs
+        for t in rows
     ]
     return JsonResponse({'tasks': data})
 
@@ -671,7 +680,9 @@ def project_tasks_csv_view(request, project_id):
     ID, title, status, assignee, estimate, actual_hours, due_date.
     """
     project = request.project
-    tasks = Task.objects.filter(project=project).select_related('assignee').order_by('id')
+    tasks = Task.objects.filter(project=project).select_related('assignee').annotate(
+        _actual_hours_total=models.Sum('time_entries__hours')
+    ).order_by('id')
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="{project.name.replace(" ", "_")}_tasks.csv"'

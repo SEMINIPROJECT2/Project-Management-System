@@ -1,0 +1,41 @@
+name: Part 3 Testing Reports
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [test/part3-testing-reports]
+    paths: ['**.py', '**.js', '.coveragerc', 'requirements*.txt', '.github/workflows/part3-testing.yml']
+  pull_request:
+    branches: [main]
+    paths: ['**.py', '**.js', '.coveragerc', 'requirements*.txt', '.github/workflows/part3-testing.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  qualification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DJANGO_DEBUG: 'true'
+      ALLOWED_HOSTS: '127.0.0.1,localhost,testserver'
+      RUN_BROWSER_TESTS: '1'
+      RUN_PERFORMANCE_TESTS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test dependencies and stable browsers
+        run: |
+          python -m pip install -r requirements-test.txt
+          python -m playwright install --with-deps chrome firefox
+      - name: Execute tests and generate all four reports
+        run: python scripts/run_part3_tests.py
+      - name: Preserve reports and raw evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: part3-testing-reports
+          path: docs/part3/
+          if-no-files-found: error

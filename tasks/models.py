@@ -57,6 +57,8 @@ class Task(models.Model):
     @property
     def actual_hours(self):
         """Sum of retained time entries (SRS FR-10)."""
+        if '_actual_hours_total' in self.__dict__:
+            return self.__dict__['_actual_hours_total'] or Decimal('0.00')
         total = self.time_entries.aggregate(models.Sum('hours'))['hours__sum']
         return total or Decimal('0.00')
 

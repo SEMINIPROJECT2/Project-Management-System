@@ -233,6 +233,12 @@ class KanbanBoard {
       task.version = updated.version;
       this.renderBoard();
       this.loadDashboard();
+      if (this.activeTask && this.activeTask.id == taskId) {
+        Object.assign(this.activeTask, updated);
+        document.getElementById('modal-task-status').textContent = updated.status;
+        const statusSelect = document.getElementById('modal-status-select');
+        if (statusSelect) statusSelect.value = updated.status;
+      }
     } catch (err) {
       console.error(err);
       alert('Network error while updating status');
