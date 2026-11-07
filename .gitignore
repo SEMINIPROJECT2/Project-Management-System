@@ -34,5 +34,4 @@ staticfiles/
 .DS_Store
 Thumbs.db
 
-# Demo videos are kept outside Git; source evidence and renderer are tracked.
-/docs/demo/*.mp4
+
