@@ -1,0 +1,114 @@
+[
+  {
+    "part": "A",
+    "title": "Demo of the Project",
+    "note": "Project Management System\nEstimates and time logging \u2014 backend API walkthrough",
+    "evidence": "PROJECT WORKFLOW\n\nCreate a project and assign team roles\nSet and validate effort estimates\nLog work with dates and notes\nEdit and delete your own entries\nReview actual hours and project activity",
+    "seconds": 15
+  },
+  {
+    "part": "A",
+    "title": "Project and roles",
+    "note": "Owner creates the workspace and invites the project team.\nThe following task is assigned to the Member account.",
+    "evidence": "POST /projects/\nHTTP 201\n{\n  \"id\": 1,\n  \"name\": \"Sprint Demo\",\n  \"description\": \"Feature walkthrough\",\n  \"role\": \"Owner\",\n  \"is_archived\": false,\n  \"message\": \"Project created successfully\"\n}",
+    "seconds": 15
+  },
+  {
+    "part": "A",
+    "title": "Set a task estimate",
+    "note": "A Manager creates a task estimated at 2.5 hours.\nThe task starts in Backlog.",
+    "evidence": "POST /tasks/projects/1/tasks/\nHTTP 201\n{\n  \"id\": 1,\n  \"title\": \"Implement project API\",\n  \"status\": \"Backlog\",\n  \"priority\": \"Medium\",\n  \"estimate_hours\": \"2.5\",\n  \"actual_hours\": \"0.00\",\n  \"version\": 1,\n  \"assignee\": \"member@example.test\",\n  \"message\": \"Task created successfully in Backlog\"\n}",
+    "seconds": 15
+  },
+  {
+    "part": "A",
+    "title": "Validate estimate boundaries",
+    "note": "Estimates accept half-hour steps from 0 to 9999.5.\nInvalid input is rejected before any database write.",
+    "evidence": "Estimate       0 hours  -> HTTP 200 / saved 0\nEstimate  9999.5 hours  -> HTTP 200 / saved 9999.5\nEstimate     2.5 hours  -> HTTP 200 / saved 2.5\nEstimate    -0.5 hours  -> HTTP 400 / INVALID_ESTIMATE\nEstimate    0.25 hours  -> HTTP 400 / INVALID_ESTIMATE\nEstimate     NaN hours  -> HTTP 400 / INVALID_ESTIMATE\nEstimate Infinity hours  -> HTTP 400 / INVALID_ESTIMATE\nEstimate   10000 hours  -> HTTP 400 / INVALID_ESTIMATE",
+    "seconds": 20
+  },
+  {
+    "part": "A",
+    "title": "Protect estimate permissions",
+    "note": "The assigned Member can work on the task.\nEstimate changes remain restricted to Owner and Manager.",
+    "evidence": "PATCH /tasks/projects/1/tasks/1/\nHTTP 403\n{\n  \"error\": {\n    \"code\": \"FORBIDDEN\",\n    \"message\": \"Members cannot alter task estimate or assignee\"\n  }\n}",
+    "seconds": 15
+  },
+  {
+    "part": "A",
+    "title": "Record work and actual hours",
+    "note": "Two retained entries: 1.25 + 0.75 = 2.00 hours.\nEach entry stores its creator, date and note.",
+    "evidence": "POST /tasks/projects/1/tasks/1/time/\nHTTP 201\n{\n  \"entry_id\": 2,\n  \"task_id\": 1,\n  \"hours\": \"0.75\",\n  \"date\": \"2026-10-20\",\n  \"note\": \"Verification\",\n  \"actual_hours\": \"2\",\n  \"message\": \"Time logged successfully\"\n}",
+    "seconds": 15
+  },
+  {
+    "part": "A",
+    "title": "Edit the date, note and hours",
+    "note": "The creator revises the entry through the API.\nStored date and note change; actual hours become 3.25.",
+    "evidence": "PUT /tasks/projects/1/tasks/1/time/1/\nHTTP 200\n{\n  \"entry_id\": 1,\n  \"hours\": \"2.5\",\n  \"actual_hours\": \"3.25\",\n  \"date\": \"2026-10-21\",\n  \"note\": \"Revised work\",\n  \"message\": \"Time entry updated\"\n}",
+    "seconds": 15
+  },
+  {
+    "part": "A",
+    "title": "Reject invalid edits without changes",
+    "note": "Bad quarter-hour values, impossible dates and non-text notes fail.\nThe previous 2.50-hour entry, date and note remain intact.",
+    "evidence": "{\"hours\": \"0.1\"}\nHTTP 400 / INVALID_HOURS\n\n{\"hours\": \"1\", \"date\": \"2026-02-30\"}\nHTTP 400 / INVALID_DATE\n\n{\"hours\": \"1\", \"note\": null}\nHTTP 400 / INVALID_NOTE",
+    "seconds": 20
+  },
+  {
+    "part": "A",
+    "title": "Protect time-entry ownership",
+    "note": "Another user cannot edit the creator\u2019s time entry.\nThe API returns HTTP 403.",
+    "evidence": "PUT /tasks/projects/1/tasks/1/time/1/\nHTTP 403\n{\n  \"error\": {\n    \"code\": \"FORBIDDEN\",\n    \"message\": \"You can only edit your own time logs\"\n  }\n}",
+    "seconds": 15
+  },
+  {
+    "part": "A",
+    "title": "Delete an entry and recalculate",
+    "note": "The creator deletes the revised entry.\nOnly the 0.75-hour entry remains in the actual total.",
+    "evidence": "DELETE /tasks/projects/1/tasks/1/time/1/\nHTTP 200\n{\n  \"success\": true,\n  \"actual_hours\": \"0.75\"\n}",
+    "seconds": 15
+  },
+  {
+    "part": "B",
+    "title": "Capacity and reliability",
+    "note": "Project Management System\nCurrent build \u2014 verification walkthrough",
+    "evidence": "DATASET\n\n500 project tasks\n20 project members\n2,000 project activity events\n\nAPI results are compared with the stored records.",
+    "seconds": 15
+  },
+  {
+    "part": "B",
+    "title": "Retrieve the complete project dataset",
+    "note": "Every task and activity identifier matches the stored fixture.\nActivity history includes records beyond the old 100-row limit.",
+    "evidence": "GET /tasks/projects/2/tasks/\nHTTP 200 / returned 500 tasks\n\nGET /projects/2/members/\nHTTP 200 / returned 20 members\n\nGET /audit/projects/2/activity/\nHTTP 200 / returned 2000 events\nUnique activity IDs: 2000\nStored and returned task/event ID sets: MATCH",
+    "seconds": 20
+  },
+  {
+    "part": "B",
+    "title": "Updates survive an application restart",
+    "note": "Independent writer and reader processes share a temporary SQLite file.\nTask changes, time-entry details and audit actions survive restart.",
+    "evidence": "$ python manage.py test\n  tests.test_iteration2_effort_reliability.RestartPersistenceTests\n\nSystem check identified no issues (0 silenced).\ntest_committed_api_updates_survive_new_application_process (tests.test_iteration2_effort_reliability.RestartPersistenceTests.test_committed_api_updates_survive_new_application_process)\nRan 1 test in 1.296s\nOK",
+    "seconds": 20
+  },
+  {
+    "part": "B",
+    "title": "Roll back failed API operations",
+    "note": "Injected failures occur after audit and notification writes.\nTask, time-entry, audit and notification snapshots remain unchanged.",
+    "evidence": "$ python manage.py test\n  tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_endpoint_failure_rolls_back_tasks_entries_audit_and_notifications\n\nSystem check identified no issues (0 silenced).\ntest_endpoint_failure_rolls_back_tasks_entries_audit_and_notifications (tests.test_iteration2_effort_reliability.Iteration2EffortTests.test_endpoint_failure_rolls_back_tasks_entries_audit_and_notifications) ... ok\nRan 1 test in 0.064s\nOK",
+    "seconds": 20
+  },
+  {
+    "part": "B",
+    "title": "Run the integrated test suite",
+    "note": "133 discovered: 130 passed, 3 optional checks skipped.\nSkipped browser/performance checks are not counted as passes.",
+    "evidence": "$ python manage.py test --verbosity=2\n\n----------------------------------------------------------------------\nRan 133 tests in 81.196s\n\nOK (skipped=3)\nDestroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...\n OK\nSystem check identified no issues (0 silenced).",
+    "seconds": 20
+  },
+  {
+    "part": "B",
+    "title": "Demo complete",
+    "note": "Project Management System\nIteration 2 outcomes",
+    "evidence": "COMPLETED\n\nEstimate and time-entry validation\nTime-entry date/note edits and ownership checks\nComplete capacity-fixture retrieval\nPersistence across separate application processes\nRollback after injected API failures\n\nNEXT STEPS\nBrowser compatibility and usability measurements\nTime-entry editing controls in the web interface",
+    "seconds": 18
+  }
+]
