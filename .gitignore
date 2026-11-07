@@ -13,8 +13,7 @@ __pycache__/
 # Local measurement databases and caches; exported reports are tracked.
 .coverage
 .coverage.*
-playwright-report/
-test-results/
+
 
 # Django
 *.log
