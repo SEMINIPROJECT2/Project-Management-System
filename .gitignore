@@ -10,6 +10,12 @@ __pycache__/
 *$py.class
 *.so
 
+# Local measurement databases and caches; exported reports are tracked.
+.coverage
+.coverage.*
+playwright-report/
+test-results/
+
 # Django
 *.log
 local_settings.py
@@ -28,8 +34,5 @@ staticfiles/
 .DS_Store
 Thumbs.db
 
-# Local measurement databases and caches; exported reports are tracked.
-.coverage
-.coverage.*
-playwright-report/
-test-results/
+# Demo videos are kept outside Git; source evidence and renderer are tracked.
+/docs/demo/*.mp4
